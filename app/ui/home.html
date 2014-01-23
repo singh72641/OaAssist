@@ -1,0 +1,62 @@
+﻿<!DOCTYPE html>
+<html ng-app="oa">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta name="description" content=""/>
+    <meta name="author" content="Kanwal"/>
+    <title>OaAssist</title>
+    <link href="/resources/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="/resources/css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link href="/resources/css/OaAssist.css" rel="stylesheet"/>
+    <style type="text/css">
+        .sidebar-nav {
+            padding: 9px 0;
+        }
+    </style>
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+    <script src="/resources/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container" style="width: 100%; max-width: 1940px;" ng-controller="OaCtrl">
+        <div class="row" style="background-color: #003366;  color: #ffffff;">
+            <div class="col-lg-1" style="margin-top: 10px; margin-bottom: 10px;">
+                <span class="h1" style="">OaAssist</span>
+            </div>
+            <div class="col-md-2 col-md-offset-9" style="color: #ffffff;">
+                <a href="#">Settings</a>
+                <a href="#">Preferences</a>
+                <a href="#">Help</a>
+            </div>
+        </div>
+
+        <div class="row" style="min-height: 800px;">
+            <div class="col-lg-2" style="">
+                <div id="leftnav" ng-controller="OaMenuCtrl">
+                    <ul class="nav nav-pills nav-stacked" style="padding-top: 15px;">
+                        <li class="active" ng-click="menu( 'SYS_M_COMPONENTS', 'sys/component')"><a href="#">Components</a></li>
+                        <li><a href="#" ng-click="menu('SYS_M_VIEWS', 'sys/view')">Views</a></li>
+                        <li><a href="#" ng-click="menu('SYS_M_TRIG', 'sys/trigger')">Triggers</a></li>
+                        <li><a href="#" ng-click="menu('SYS_M_PACKAGE', 'sys/package')">Packages</a></li>
+                        <li><a href="#" ng-click="menu('SYS_M_CONC', 'sys/concurrentProgram')">Concurrent Programs</a></li>
+                        <li><a href="#" ng-click="menu('SYS_M_PROFILE', 'sys/profileOptions')">Profile Options</a></li>
+                        <li><a href="#" ng-click="menu('SYS_M_FLEX', 'sys/flexField')">Flex Fields</a></li>
+                        <li><a href="#" ng-class="{'active' : currentMenu == 'SYS_M_SETTING'}" ng-click="menu('SYS_M_SETTING', 'sys/setting')">Settings</a></li>
+                        <li><a href="#" ng-click="menu('SYS_M_QUERY', '/api/qry/show')">Query</a></li>
+                        <li><a href="#" ng-click="menu('SYS_M_QUERY', '/build')">Build</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-lg-10">
+                <div id="outtest" >
+                    <div id="maincontent">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/resources/js/jquery-2.0.3.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>
+    <script src="/resources/js/OaAssist.js"></script>
+</body>
+</html>

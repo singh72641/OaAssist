@@ -1,0 +1,43 @@
+{
+    "inputs" : [
+        {
+            "name": "vendor_id",
+            "type" : "String",
+            "required" : true
+        }
+    ],
+    "title" : "Supplier",
+    "type": "OaFormViewR",
+    "query" : {
+        "sql" : [
+            "select vendor_id, vendor_name, segment1 vendor_num, enabled_flag, v.vendor_type_lookup_code, v.invoice_currency_code, payment_currency_code, pay_group_lookup_code",
+            "from po_vendors v",
+            "where vendor_id = ?"
+        ]
+    },
+    "action" : "/ui/uSupplierList",
+    "regionSize" : "lg-5",
+    "columns" : [
+        {
+            "name":"vendor_name",
+            "prompt":"Vendor Name",
+            "type":"String",
+            "bind":"vendor_name",
+            "size": 4
+        },
+        {
+            "name":"vendor_num",
+            "prompt":"Vendor Num",
+            "type":"String",
+            "bind":"vendor_num",
+            "size": 2
+        },
+        {
+            "name":"enabled_flag",
+            "prompt":"Enabled",
+            "type":"String",
+            "bind":"enabled_flag",
+            "size": 2
+        }
+    ]
+}

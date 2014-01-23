@@ -1,0 +1,60 @@
+{
+    "title" : "Add Region",
+    "action" : "build/region",
+    "method" : "POST",
+    "type" :    "OaFormR",
+    "lovs" : [
+        "OaRegionSources"
+    ],
+    "columns" : [
+        {
+            "name":"module",
+            "prompt":"Module",
+            "type" : "String",
+            "displaytype":"text",
+            "bind":"module",
+            "size" : 2,
+            "editable" : "Y",
+            "lov" : "SmModuleList1"
+        },
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type" : "String",
+            "displaytype":"text",
+            "bind":"name",
+            "size" : 2,
+            "editable" : "Y"
+        },
+        {
+            "name":"description",
+            "prompt":"Description",
+            "type" : "String",
+            "displaytype":"text",
+            "bind":"description",
+            "size" : 3,
+            "editable" : "Y"
+        },
+        {
+            "name":"type",
+            "prompt":"Type",
+            "type" : "String",
+            "displaytype":"select",
+            "bind":"type",
+            "size" : 1,
+            "editable" : "Y",
+            "lov" : "OaRegionSources"
+        },
+        {
+            "name":"source",
+            "prompt":"source",
+            "type" : "String",
+            "displaytype":"textarea",
+            "bind":"sql",
+            "size" : 5,
+            "cols" : 25,
+            "rows" : 10,
+            "editable" : "Y"
+        }
+    ]
+}

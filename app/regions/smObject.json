@@ -1,0 +1,6 @@
+{
+  "name" : "smObject",
+  "description" : "Objects of components",
+  "type" : "TABLE",
+  "source" : "sm_objects"
+}

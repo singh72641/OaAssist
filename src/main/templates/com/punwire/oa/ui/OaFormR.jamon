@@ -1,0 +1,85 @@
+<%import>
+    java.util.List;
+    java.util.Map;
+    com.punwire.oa.core.OaExpression;
+    com.fasterxml.jackson.databind.node.ArrayNode;
+    com.fasterxml.jackson.databind.node.ObjectNode;
+    com.punwire.oa.core.OaUiHelper;
+    com.punwire.oa.services.OaViewS;
+    com.punwire.oa.domain.SysListValue;
+    com.fasterxml.jackson.databind.JsonNode;
+</%import>
+<%args>
+    ObjectNode view;
+    ObjectNode row;
+    OaViewS viewService;
+</%args>
+<%java>
+    ArrayNode columns = (ArrayNode)view.get("columns");
+</%java>
+<form id="<% view.get("method").asText() %>" method="<% view.get("method").asText() %>"  ng-submit="submit('<% view.get("action").asText() %>')"  role="form" ng-controller="OaFormCtrl" class="form-horizontal">
+    <div>
+        <h4 style="color: #003366;"><% OaExpression.eval(view.get("title").asText(),view) %></h4>
+        <hr/>
+        <%for int i = 0; i < columns.size(); i++ %>
+        <%java> JsonNode col = (JsonNode)columns.get(i); </%java>
+        <%if col.isArray() %>
+            <%java> ArrayNode colArray = (ArrayNode)col; </%java>
+            <div class="form-group">
+            <%for int ii = 0; ii < colArray.size(); ii++ %>
+                <%java> ObjectNode col1 = (ObjectNode)colArray.get(ii);  </%java>
+                <%if (! col1.has("visible")) || col1.get("visible").asBoolean() %>
+                <div class="col-lg-6">
+                    <& _field; col = col1; row = row; viewService=viewService; &>
+                </div>
+                </%if>
+            </%for>
+            </div>
+        <%else>
+            <%if (! col.has("visible")) || col.get("visible").asBoolean() %>
+            <div class="form-group">
+                <div class="col-lg-6">
+                <& _field; col = (ObjectNode)col; row = row; viewService=viewService; &>
+                </div>
+            </div>
+            </%if>
+        </%if>
+        </%for>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-10">
+              <button type="submit" class="btn btn-primary btn-xs" >Save</button>
+              <button type="button" class="btn btn-default btn-xs" ng-click="cancel()">Cancel</button>
+            </div>
+         </div>
+    </div>
+
+</form>
+
+<%def _field>
+  <%args>
+    ObjectNode col;
+    ObjectNode row;
+    OaViewS viewService;
+  </%args>
+
+  <label for="<% col.get("name").asText() %>" class="col-sm-3 control-label"><% col.get("prompt").asText() %> </label>
+  <div class="col-md-<% col.get("size").asText() %>">
+      <%if col.has("displaytype") %>
+          <%if col.get("displaytype").asText().equals("textarea") %>
+              <textarea class="form-control" name="<% col.get("name").asText() %>"  <%if col.has("cols") %>cols="<% col.get("cols").asText() %>"</%if> <%if col.has("rows") %>rows="<% col.get("rows").asText() %>"</%if>><% OaUiHelper.get(row,col,"bind") %></textarea>
+          <%elseif col.get("displaytype").asText().equals("select") %>
+              <%java> List<SysListValue> lov = viewService.getList(col.get("lov").asText()); </%java>
+              <select name="<% col.get("name").asText() %>" class="form-control"  >
+              <%for SysListValue lv : lov %>
+                  <option value ="<% lv.getCode() %>"><% lv.getValue() %></option>
+              </%for>
+              </select>
+          <%else>
+              <input type="<% col.get("displaytype").asText() %>" name="<% col.get("name").asText() %>" class="form-control" value="<%  OaUiHelper.get(row,col,"bind") %>"/>
+          </%if>
+      <%else>
+          <input type="text" name="<% col.get("name").asText() %>" class="form-control" value="<%  OaUiHelper.get(row,col,"bind") %>"/>
+      </%if>
+  </div>
+
+</%def>

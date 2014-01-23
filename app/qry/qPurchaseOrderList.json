@@ -1,0 +1,4 @@
+{
+  "name" : "qPurchaseOrderList",
+  "sql" : "select 1 from dual;                      \r\n                        "
+}

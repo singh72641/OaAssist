@@ -1,0 +1,23 @@
+<%import>
+    java.util.List;
+    java.util.Map;
+</%import>
+<%args>
+    List<Map<String, Object>> rows;
+</%args>
+<div class="col-lg-3">
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Query Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <%for Map<String, Object> row : rows %>
+            <tr>
+                <td><a href="#" ng-click="get('/build/query/<% row.get("name") %>/detail')"><% row.get("name") %></a></td>
+            </tr>
+            </%for>
+        </tbody>
+    </table>
+</div>

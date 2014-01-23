@@ -1,0 +1,57 @@
+{
+    "inputs" : [
+        {
+            "name": "name",
+            "type" : "String",
+            "required" : true
+        }
+    ],
+    "title" : "Region",
+    "type": "OaFormViewR",
+    "query" : {
+        "sql" : [
+            "select id, name, description, type, source, parent_id, link_type ",
+            "from oa_regions",
+            "where name = ?"
+        ]
+    },
+    "action" : "build/region",
+    "regionSize" : "lg-5",
+    "columns" : [
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type":"String",
+            "bind":"name",
+            "size": 4
+        },
+        {
+            "name":"description",
+            "prompt":"Description",
+            "type":"String",
+            "bind":"description",
+            "size": 2
+        },
+        {
+            "name":"type",
+            "prompt":"Type",
+            "type":"String",
+            "bind":"type",
+            "size": 2
+        },
+        {
+            "name":"source",
+            "prompt":"Source",
+            "type":"String",
+            "bind":"source",
+            "size": 2
+        }
+    ],
+    "buttons" : [
+        {
+            "name" : "btnColumns",
+            "prompt" : "Columns"
+
+        }
+    ]
+}

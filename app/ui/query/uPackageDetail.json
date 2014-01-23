@@ -1,0 +1,47 @@
+{
+    "inputs" : [
+        {
+            "name": "name",
+            "type" : "String",
+            "required" : true
+        }
+    ],
+    "title" : "'Component - ' + get('name').asText()",
+    "type": "OaGridR",
+    "query" : {
+        "sql" : [
+            " select line, type, name, text from all_source ",
+            " where name = ? ",
+            " order by type, line "
+        ]
+    },
+    "action" : "/ui/uPackageDetail",
+    "regionSize" : "lg-6",
+    "columns" : [
+        {
+            "name":"line",
+            "prompt":"Line",
+            "type":"Integer",
+            "bind":"line",
+            "size": 1,
+            "search" : false
+        },
+        {
+            "name":"type",
+            "prompt":"Type",
+            "type":"String",
+            "bind":"type",
+            "size": 2,
+            "search" : false,
+            "link" : "'/ui/uComponentDetail/'+get('code').asText()"
+        },
+        {
+            "name":"text",
+            "prompt":"Text",
+            "type":"String",
+            "bind":"text",
+            "size": 6,
+            "search" : false
+        }
+    ]
+}

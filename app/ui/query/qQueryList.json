@@ -1,0 +1,27 @@
+{
+    "regionSize" : "lg-4",
+    "columns" : [
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type":"Text",
+            "bind":"name",
+            "link": "'/build/query/' + get('name').asText() + '/detail'"
+        },
+        {
+            "name":"run",
+            "prompt":"Run",
+            "type":"action",
+            "link": "'/build/query/' + get('name').asText() + '/run'"
+        }
+
+    ],
+    "actions" : [
+        {
+            "name" : "btnAdd",
+            "title" : "Add",
+            "link" : "'/build/query/add'"
+        }
+    ]
+
+}

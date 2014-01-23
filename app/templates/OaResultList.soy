@@ -1,0 +1,33 @@
+{namespace com.punwire.oa}
+
+/**
+*oaResultList
+*@param ui
+*/
+{template .oaResultList}
+<!DOCTYPE html>
+<html>
+<head>
+</head>
+<body>{\n}
+<div th:fragment="oafrag">
+    <table class="table table-striped">
+        <thead>
+        <tr>{\n}
+        {foreach $column in $ui.columns}
+            <th>{$column.prompt}</th>{\n}
+        {/foreach}
+        </tr>{\n}
+        </thead>
+        <tbody>{\n}
+            <tr th:each="row : ${lb}rows{rb}">
+                {foreach $column in $ui.columns}
+                <td th:text="${lb}row.{$column.bind}{rb}">sample1</td>
+                {/foreach}
+            </tr>
+        </tbody>{\n}
+    </table>
+</div>{\n}
+</body>
+</html>
+{/template}

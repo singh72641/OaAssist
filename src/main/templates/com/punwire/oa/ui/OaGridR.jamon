@@ -1,0 +1,80 @@
+<%import>
+    java.util.List;
+    java.util.ArrayList;
+    java.util.Map;
+    com.fasterxml.jackson.databind.node.ArrayNode;
+    com.fasterxml.jackson.databind.node.ObjectNode;
+    com.fasterxml.jackson.databind.JsonNode;
+    com.punwire.oa.core.OaExpression;
+</%import>
+<%args>
+    ObjectNode view;
+    ArrayNode rows;
+</%args>
+<%java>
+    ArrayNode columns = (ArrayNode)view.get("columns");
+</%java>
+<div class="col-<% view.get("regionSize").asText() %>">
+    <div class="oa-region-title">Query ...
+        <%if view.has("actions")%>
+            <div class="oa-title-buttons">
+            <%java>ArrayNode actions = (ArrayNode)view.get("actions");</%java>
+            <%for int i = 0; i < actions.size(); i++ %>
+            <%java>ObjectNode action = (ObjectNode)actions.get(i);</%java>
+                <a href="#" ng-click="get('<% OaExpression.eval(action.get("link").asText(),action) %>')"><button type="button" class="btn btn-primary btn-xs" name="<% action.get("name").asText() %>"><% action.get("title").asText() %></button></a>
+            </%for>
+            </div>
+        </%if>
+        <%if view.has("showPagination")%>
+            <div class="oa-title-buttons">
+                <ul class="oa-pagination pagination-sm">
+                  <li><a href="#" ng-click="prevPage()">«</a></li>
+                  <li><a href="#" ng-click="nextPage()">»</a></li>
+                </ul>
+            </div>
+        </%if>
+    </div>
+    <table class="table table-striped  table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th style="width: 25px;">Select</th>
+                <%for int i = 0; i < columns.size(); i++ %>
+                <%java> ObjectNode col = (ObjectNode)columns.get(i); </%java>
+                 <%if (! col.has("visible")) || col.get("visible").asBoolean() %>
+                    <th> <% col.get("prompt").asText() %> </th>
+                </%if>
+                </%for>
+            </tr>
+        </thead>
+        <tbody>
+            <%for int r = 0; r < rows.size(); r++ %>
+            <%java>ObjectNode row = (ObjectNode)rows.get(r);</%java>
+            <tr>
+                <td>
+                    <input type="checkbox" name="select_\$index" ng-change="selected()" ng-model="row.oa_selected" style="width: 20px;"/>
+                </td>
+                <%for int i = 0; i < columns.size(); i++ %>
+                <%java> ObjectNode col = (ObjectNode)columns.get(i); </%java>
+                <%if (! col.has("visible")) || col.get("visible").asBoolean() %>
+                    <%if col.get("type").asText().equals("action") %>
+                    <td>
+                        <a href="#" ng-click="get('<% OaExpression.eval(col.get("link").asText(),row) %>')">
+                            <%  col.get("prompt").asText() %>
+                        </a>
+                    </td>
+                    <%elseif col.has("link") == true %>
+                    <td>
+                        <a href="#" ng-click="get('<% OaExpression.eval(col.get("link").asText(),row) %>')">
+                            <%  row.get(col.get("bind").asText()).asText() %>
+                        </a>
+                    </td>
+                    <%else>
+                    <td> <%  row.get(col.get("bind").asText()).asText() %> </td>
+                    </%if>
+                </%if>
+                </%for>
+            </tr>
+            </%for>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,35 @@
+<%import>
+    java.util.List;
+    java.util.Map;
+    com.punwire.oa.core.OaExpression;
+    com.fasterxml.jackson.databind.node.ArrayNode;
+    com.fasterxml.jackson.databind.node.ObjectNode;
+    com.punwire.oa.core.OaUiHelper;
+    com.punwire.oa.services.OaViewS;
+    com.punwire.oa.domain.SysListValue;
+    com.punwire.oa.ui.OaFormViewR;
+</%import>
+<%args>
+    String viewName;
+    ObjectNode row;
+    OaViewS viewService;
+</%args>
+<div class="row">
+    <%java> ObjectNode view = viewService.getView(viewName); </%java>
+    <& /com/punwire/oa/ui/OaFormViewR; view=view; row=row; viewService=viewService;&>
+</div>
+<div class="row">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#">Objects</a></li>
+      <li><a href="#">Change Requests</a></li>
+      <li><a href="#">Issues</a></li>
+      <li><a href="#">Comments</a></li>
+    </ul>
+</div>
+<%java>
+    ObjectNode param = viewService.initParam("comp_id", row.get("id").asLong());
+    ObjectNode objectView = viewService.getView("sm/smComponentObjectList");
+    ArrayNode objectRows = viewService.getViewRows("sm/smComponentObjectList",param);
+</%java>
+<& /com/punwire/oa/ui/OaGridR; view=objectView; rows=objectRows;  &>
+

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+    <changeSet author="kanwal" id="1">
+        <createTable tableName="SM_COMPONENTS" >
+            <column name="ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(80)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="MODULE" type="VARCHAR2(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="TRACK" type="VARCHAR2(20)"/>
+            <column name="DESCRIPTION" type="VARCHAR2(250)"/>
+            <column name="SM_STAGE" type="VARCHAR2(40)"/>
+            <column name="SM_STAGE_DATE" type="date"/>
+        </createTable>
+        <addPrimaryKey columnNames="ID" constraintName="SYS_C00223587" tableName="SM_COMPONENTS"/>
+    </changeSet>
+    <changeSet author="kanwal" id="2">
+        <createTable tableName="SYS_LISTS">
+            <column name="ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="NAME" type="VARCHAR2(40)"/>
+            <column name="TYPE" type="VARCHAR2(20)"/>
+            <column name="SQL" type="VARCHAR2(2000)"/>
+        </createTable>
+        <addPrimaryKey columnNames="ID" constraintName="SYS_LISTS_PK" tableName="SYS_LISTS"/>
+    </changeSet>
+    <changeSet author="kanwal" id="3">
+        <createTable tableName="SYS_LIST_VALUES">
+            <column name="LIST_ID" type="NUMBER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="CODE" type="VARCHAR2(40)"/>
+            <column name="VALUE" type="VARCHAR2(300)"/>
+            <column name="ID" type="NUMBER(38, 0)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addPrimaryKey columnNames="ID" constraintName="SYS_LIST_VALUES_PK" tableName="SYS_LIST_VALUES"/>
+        <addForeignKeyConstraint baseColumnNames="LIST_ID" baseTableName="SYS_LIST_VALUES"
+                                 constraintName="SYS_LIST_VALUES_FK" deferrable="false" initiallyDeferred="false"
+                                 onDelete="RESTRICT" onUpdate="RESTRICT" referencedColumnNames="ID"
+                                 referencedTableName="SYS_LISTS"/>
+    </changeSet>
+</databaseChangeLog>

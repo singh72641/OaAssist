@@ -1,0 +1,49 @@
+{
+  "title" : "Object",
+  "type" : "OaSearchPageR",
+  "action" : "smObject",
+  "addaction" : "smObject/add",
+  "regionSize" : "lg-8",
+  "showPagination" : true,
+  "query" : {
+    "sql" : [ "select rownum row_num, e.*", "from sm_objects e ", " &where& " ],
+    "dynamic" : true
+  },
+  "columns" : [ {
+    "name" : "id",
+    "bind" : "id",
+    "prompt" : "Id",
+    "size" : 2,
+    "type" : "Number",
+    "displaytype" : "text",
+    "search" : false,
+    "visible" : false
+  }, {
+    "name" : "name",
+    "bind" : "name",
+    "prompt" : "Name",
+    "size" : 4,
+    "type" : "String",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : true
+  }, {
+    "name" : "object_type",
+    "bind" : "object_type",
+    "prompt" : "Type",
+    "size" : 2,
+    "type" : "String",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : true
+  }, {
+    "name" : "object_source",
+    "bind" : "object_source",
+    "prompt" : "Source",
+    "size" : 4,
+    "type" : "String",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : true
+  } ]
+}

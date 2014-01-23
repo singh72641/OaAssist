@@ -1,0 +1,22 @@
+{
+    "layout" : "OaFormMulti",
+    "title"  : "Add Component",
+    "size"   : "lg-6",
+    "columns" : [
+        [
+            {
+                "name":"component_num"
+            },
+            {
+                "name":"component_type"
+            }
+        ],
+        [
+            {
+
+            }
+        ]
+
+    ]
+
+}

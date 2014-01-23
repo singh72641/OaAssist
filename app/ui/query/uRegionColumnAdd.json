@@ -1,0 +1,37 @@
+{
+    "title" : "Region Column Add",
+    "type": "OaFormR",
+    "action" : "build/region",
+    "method" : "POST",
+    "regionSize" : "lg-5",
+    "columns" : [
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type":"String",
+            "bind":"name",
+            "size": 4
+        },
+        {
+            "name":"prompt",
+            "prompt":"Prompt    ",
+            "type":"String",
+            "bind":"prompt",
+            "size": 2
+        },
+        {
+            "name":"bind",
+            "prompt":"Bind",
+            "type":"String",
+            "bind":"type",
+            "size": 2
+        },
+        {
+            "name":"source",
+            "prompt":"Source",
+            "type":"String",
+            "bind":"source",
+            "size": 2
+        }
+    ]
+}

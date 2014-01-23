@@ -1,0 +1,83 @@
+{
+    "title" : "'Add Component'",
+    "action" : "comp/add",
+    "method" : "POST",
+    "type" :    "OaFormR",
+    "regionSize" : "lg-6",
+    "columns" : [
+        {
+            "name":"component_num",
+            "prompt":"ID",
+            "displaytype":"text",
+            "type": "String",
+            "bind":"component_num",
+            "size" : 2,
+            "editable" : "Y"
+        },{
+            "name":"name",
+            "prompt":"Name",
+            "displaytype":"text",
+            "type": "String",
+            "bind":"name",
+            "size" : 2,
+            "editable" : "Y"
+        },
+        {
+            "name":"description",
+            "prompt":"Description",
+            "displaytype":"text",
+            "type": "String",
+            "bind":"description",
+            "size" : 3,
+            "editable" : "Y"
+        },
+        {
+            "name":"component_type",
+            "prompt":"Type",
+            "displaytype":"select",
+            "type": "String",
+            "bind":"component_type",
+            "size" : 2,
+            "editable" : "Y",
+            "lov" : "SmComponentTypes"
+        },
+        {
+            "name":"track",
+            "prompt":"Track",
+            "displaytype":"text",
+            "type": "String",
+            "bind":"track",
+            "size" : 1,
+            "editable" : "Y"
+        },
+        {
+            "name":"module",
+            "prompt":"Module",
+            "displaytype":"text",
+            "type": "String",
+            "bind":"module",
+            "size" : 2,
+            "editable" : "Y"
+        },
+        {
+            "name":"sm_stage",
+            "prompt":"Stage",
+            "displaytype":"select",
+            "type": "String",
+            "bind":"sm_stage",
+            "size" : 3,
+            "editable" : "Y",
+            "lov" : "SmComponentStages"
+        },
+        {
+            "name":"sm_stage_date",
+            "prompt":"Stage Start",
+            "displaytype":"Date",
+            "type": "Date",
+            "bind":"sm_stage_date",
+            "editable" : "Y",
+            "size" : 2,
+            "editable" : "Y"
+        }
+    ]
+}

@@ -1,0 +1,68 @@
+{
+    "title" : "Region Columns",
+    "type": "OaFormTableR",
+    "action" : "build/region",
+    "regionSize" : "lg-5",
+    "method" : "POST",
+    "columns" : [
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type":"String",
+            "bind":"name",
+            "size": 4,
+            "editable" : false
+        },
+        {
+            "name":"prompt",
+            "prompt":"Prompt",
+            "type":"String",
+            "bind":"prompt",
+            "size": 2,
+            "editable" : true
+        },
+        {
+            "name":"type",
+            "prompt":"Type",
+            "type":"String",
+            "bind":"type",
+            "size": 2,
+            "editable" : false
+        },
+        {
+            "name":"size",
+            "prompt":"Size",
+            "type":"String",
+            "bind":"size",
+            "size": 2,
+            "editable" : true
+        },
+        {
+            "name":"Searchable",
+            "prompt":"Search",
+            "type":"String",
+            "bind":"searchable",
+            "size": 2,
+            "editable" : true,
+            "display" : "checkbox"
+        },
+        {
+            "name":"visible",
+            "prompt":"Visible",
+            "type":"String",
+            "bind":"visible",
+            "size": 2,
+            "editable" : true,
+            "display" : "checkbox"
+        },
+        {
+            "name":"editable",
+            "prompt":"Editable",
+            "type":"String",
+            "bind":"editable",
+            "size": 2,
+            "editable" : true,
+            "display" : "checkbox"
+        }
+    ]
+}

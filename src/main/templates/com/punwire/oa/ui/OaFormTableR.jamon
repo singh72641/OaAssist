@@ -1,0 +1,63 @@
+<%import>
+    java.util.List;
+    java.util.Map;
+    com.fasterxml.jackson.databind.node.ArrayNode;
+    com.fasterxml.jackson.databind.node.ObjectNode;
+    com.punwire.oa.core.OaUiHelper;
+    com.punwire.oa.services.OaViewS;
+    com.punwire.oa.domain.SysListValue;
+</%import>
+<%args>
+    ObjectNode view;
+    ArrayNode rows;
+    OaViewS viewService;
+</%args>
+<%java>
+    ArrayNode columns = (ArrayNode)view.get("columns");
+</%java>
+<form id="<% view.get("method").asText() %>" method="<% view.get("method").asText() %>"  ng-submit="submit('<% view.get("action").asText() %>')"  role="form" ng-controller="OaFormCtrl" class="form-horizontal">
+    <div>
+        <h4 style="color: #003366;">Search Components...</h4>
+        <hr/>
+        <table>
+        <%for int r = 0; r < rows.size(); r++ %>
+            <%java> ObjectNode row = (ObjectNode)rows.get(r); </%java>
+            <tr>
+            <%for int i = 0; i < columns.size(); i++ %>
+            <%java> ObjectNode col = (ObjectNode)columns.get(i); </%java>
+            <td>
+                <div class="col-md-<% col.get("size").asText() %>">
+                    <%if col.has("editable") && col.get("editable").asBoolean() %>
+                        <%if col.has("type") %>
+                            <%if col.get("type").asText().equals("textarea") %>
+                                <textarea class="form-control" name="<% col.get("name").asText() %>"  <%if col.has("cols") %>cols="<% col.get("cols").asText() %>"</%if> <%if col.has("rows") %>rows="<% col.get("rows").asText() %>"</%if>><% OaUiHelper.get(row,col,"bind") %></textarea>
+                            <%elseif col.get("type").asText().equals("select") %>
+                                <%java> List<SysListValue> lov = viewService.getList(col.get("lov").asText()); </%java>
+                                <select name="<% col.get("name").asText() %>" >
+                                <%for SysListValue lv : lov %>
+                                    <option value ="<% lv.getCode() %>"><% lv.getValue() %></option>
+                                </%for>
+                                </select>
+                            <%else>
+                                <input type="<% col.get("type").asText() %>" name="<% col.get("name").asText() %>" class="form-control" value="<%  OaUiHelper.get(row,col,"bind") %>"/>
+                            </%if>
+                        <%else>
+                            <input type="text" name="<% col.get("name").asText() %>" class="form-control" value="<%  OaUiHelper.get(row,col,"bind") %>"/>
+                        </%if>
+                    <%else>
+                        <%  OaUiHelper.get(row,col,"bind") %>
+                    </%if>
+                </div>
+            </td>
+            </%for>
+            </tr>
+        </%for>
+        </table>
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-10">
+              <button type="submit" class="btn btn-primary btn-xs" >Save</button>
+              <button type="button" class="btn btn-default btn-xs" ng-click="cancel()">Cancel</button>
+            </div>
+         </div>
+    </div>
+</form>

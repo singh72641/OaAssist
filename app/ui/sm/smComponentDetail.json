@@ -1,0 +1,137 @@
+{
+    "title" : "'Component - ' + get('name').asText()",
+    "action" : "comp/add",
+    "method" : "POST",
+    "type" :    "OaFormViewR",
+    "regionSize" : "lg-8",
+    "inputs" : [
+        {
+            "name": "component_num",
+            "type" : "String",
+            "required" : true
+        }
+    ],
+    "query" : {
+        "sql" : [
+            " select c.*",
+            " from sm_components c",
+            " where component_num = ?"
+        ]
+    },
+    "columns" : [
+        {
+            "name":"id",
+            "prompt":"id",
+            "type":"Number",
+            "bind":"id",
+            "size" : 2,
+            "editable" : "N",
+            "visible" : false,
+            "displaytype" : "text"
+        },
+        [{
+            "name":"component_num",
+            "prompt":"ID",
+            "type":"String",
+            "bind":"component_num",
+            "size" : 2,
+            "editable" : "Y",
+            "displaytype" : "text"
+        },
+        {
+            "name":"component_type",
+            "prompt":"Type",
+            "type":"String",
+            "bind":"component_type",
+            "size" : 6,
+            "editable" : "Y",
+            "lov" : "SmComponentTypes",
+            "displaytype" : "text"
+        }]
+        ,
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type":"String",
+            "bind":"name",
+            "size" : 8,
+            "editable" : "Y",
+            "displaytype" : "text",
+            "visible" : false
+        },
+        {
+            "name":"description",
+            "prompt":"Description",
+            "type":"String",
+            "bind":"description",
+            "size" : 8,
+            "editable" : "Y",
+            "displaytype" : "text"
+        },
+        [{
+            "name":"track",
+            "prompt":"Track",
+            "type":"String",
+            "bind":"track",
+            "size" : 2,
+            "editable" : "Y",
+            "displaytype" : "text"
+        },
+        {
+            "name":"module",
+            "prompt":"Module",
+            "type":"String",
+            "bind":"module",
+            "size" : 3,
+            "editable" : "Y",
+            "displaytype" : "text"
+        }],
+        [{
+            "name":"sm_stage",
+            "prompt":"Stage",
+            "type":"String",
+            "bind":"sm_stage",
+            "size" : 3,
+            "editable" : "Y",
+            "lov" : "SmComponentStages",
+            "displaytype" : "select"
+        },
+        {
+            "name":"sm_stage_date",
+            "prompt":"Stage Start",
+            "type":"Date",
+            "bind":"sm_stage_date",
+            "editable" : "Y",
+            "size" : 2,
+            "editable" : "Y",
+            "displaytype" : "text"
+        }]
+    ],
+    "actions" : [
+        {
+            "name" : "btnUpdate",
+            "title": "Update",
+            "link" : "'comp/update/'+ get('component_num').asText()"
+        },
+        {
+            "name" : "btnDelete",
+            "title": "Delete",
+            "link" : "'comp/delete/'+ get('component_num').asText()"
+        },
+        {
+            "name" : "btnAddObject",
+            "title": "Add Object",
+            "link" : "'comp/addObject/'+ get('component_num').asText()"
+        },
+        {
+            "name" : "btnAddIssue",
+            "title": "Add Issue",
+            "link" : "'comp/addIssue/'+ get('component_num').asText()"
+        },
+        {
+            "name" : "btnAddComment",
+            "title": "Add Comment",
+            "link" : "'comp/addComment/'+ get('component_num').asText()"
+        }
+    ]
+}

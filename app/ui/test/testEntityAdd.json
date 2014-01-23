@@ -1,0 +1,41 @@
+{
+    "name" : "testEntityAdd",
+    "action" : "comp/add",
+    "method" : "POST",
+    "columns" : [
+        {
+            "name":"component_num",
+            "bind":"component_num"
+        },{
+            "name":"name",
+            "bind":"name"
+        },
+        {
+            "name":"description",
+            "bind":"description"
+        },
+        {
+            "name":"component_type",
+            "bind":"component_type"
+        },
+        {
+            "name":"track",
+            "bind":"track"
+        },
+        {
+            "name":"module",
+            "bind":"module"
+        },
+        {
+            "name":"sm_stage",
+            "bind":"sm_stage"
+        },
+        {
+            "name":"sm_stage_date",
+            "bind":"sm_stage_date"
+        }
+    ],
+    "lovs" : [
+        "SmComponentStages"
+    ]
+}

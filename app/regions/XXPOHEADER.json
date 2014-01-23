@@ -1,0 +1,433 @@
+{
+  "name" : "XXPOHEADER",
+  "description" : "PO Header Region",
+  "type" : "Table",
+  "source" : "po_headers_all",
+  "columns" : [ {
+    "name" : "po_header_id",
+    "bind" : "po_header_id",
+    "prompt" : "Po_header_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "agent_id",
+    "bind" : "agent_id",
+    "prompt" : "Agent_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "type_lookup_code",
+    "bind" : "type_lookup_code",
+    "prompt" : "Type_lookup_code",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "last_update_date",
+    "bind" : "last_update_date",
+    "prompt" : "Last_update_date",
+    "size" : 2,
+    "type" : "Date"
+  }, {
+    "name" : "last_updated_by",
+    "bind" : "last_updated_by",
+    "prompt" : "Last_updated_by",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "segment1",
+    "bind" : "segment1",
+    "prompt" : "Segment1",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "summary_flag",
+    "bind" : "summary_flag",
+    "prompt" : "Summary_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "enabled_flag",
+    "bind" : "enabled_flag",
+    "prompt" : "Enabled_flag",
+    "size" : 2,
+    "type" : "String"
+  },{
+    "name" : "conterms_deliv_upd_date",
+    "bind" : "conterms_deliv_upd_date",
+    "prompt" : "Conterms_deliv_upd_date",
+    "size" : 2,
+    "type" : "Date"
+  }, {
+    "name" : "encumbrance_required",
+    "bind" : "encumbrance_required",
+    "prompt" : "Encumbrance_required",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "pending_signature_flag",
+    "bind" : "pending_signature_flag",
+    "prompt" : "Pending_signature_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "change_summary",
+    "bind" : "change_summary",
+    "prompt" : "Change_summary",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "encumbrance_required_flag",
+    "bind" : "encumbrance_required_flag",
+    "prompt" : "Encumbrance_required_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "document_creation_method",
+    "bind" : "document_creation_method",
+    "prompt" : "Document_creation_method",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "submit_date",
+    "bind" : "submit_date",
+    "prompt" : "Submit_date",
+    "size" : 2,
+    "type" : "Date"
+  }, {
+    "name" : "supplier_notif_method",
+    "bind" : "supplier_notif_method",
+    "prompt" : "Supplier_notif_method",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "fax",
+    "bind" : "fax",
+    "prompt" : "Fax",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "email_address",
+    "bind" : "email_address",
+    "prompt" : "Email_address",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "retro_price_comm_updates_flag",
+    "bind" : "retro_price_comm_updates_flag",
+    "prompt" : "Retro_price_comm_updates_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "retro_price_apply_updates_flag",
+    "bind" : "retro_price_apply_updates_flag",
+    "prompt" : "Retro_price_apply_updates_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "update_sourcing_rules_flag",
+    "bind" : "update_sourcing_rules_flag",
+    "prompt" : "Update_sourcing_rules_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "auto_sourcing_flag",
+    "bind" : "auto_sourcing_flag",
+    "prompt" : "Auto_sourcing_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "created_language",
+    "bind" : "created_language",
+    "prompt" : "Created_language",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "cpa_reference",
+    "bind" : "cpa_reference",
+    "prompt" : "Cpa_reference",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "lock_owner_role",
+    "bind" : "lock_owner_role",
+    "prompt" : "Lock_owner_role",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "lock_owner_user_id",
+    "bind" : "lock_owner_user_id",
+    "prompt" : "Lock_owner_user_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "supplier_auth_enabled_flag",
+    "bind" : "supplier_auth_enabled_flag",
+    "prompt" : "Supplier_auth_enabled_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "cat_admin_auth_enabled_flag",
+    "bind" : "cat_admin_auth_enabled_flag",
+    "prompt" : "Cat_admin_auth_enabled_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "style_id",
+    "bind" : "style_id",
+    "prompt" : "Style_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "tax_attribute_update_code",
+    "bind" : "tax_attribute_update_code",
+    "prompt" : "Tax_attribute_update_code",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "last_updated_program",
+    "bind" : "last_updated_program",
+    "prompt" : "Last_updated_program",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "enable_all_sites",
+    "bind" : "enable_all_sites",
+    "prompt" : "Enable_all_sites",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "pay_when_paid",
+    "bind" : "pay_when_paid",
+    "prompt" : "Pay_when_paid",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "comm_rev_num",
+    "bind" : "comm_rev_num",
+    "prompt" : "Comm_rev_num",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_document_number",
+    "bind" : "clm_document_number",
+    "prompt" : "Clm_document_number",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "otm_status_code",
+    "bind" : "otm_status_code",
+    "prompt" : "Otm_status_code",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "otm_recovery_flag",
+    "bind" : "otm_recovery_flag",
+    "prompt" : "Otm_recovery_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "uda_template_id",
+    "bind" : "uda_template_id",
+    "prompt" : "Uda_template_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "uda_template_date",
+    "bind" : "uda_template_date",
+    "prompt" : "Uda_template_date",
+    "size" : 2,
+    "type" : "Date"
+  }, {
+    "name" : "user_document_status",
+    "bind" : "user_document_status",
+    "prompt" : "User_document_status",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "ame_approval_id",
+    "bind" : "ame_approval_id",
+    "prompt" : "Ame_approval_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "draft_id",
+    "bind" : "draft_id",
+    "prompt" : "Draft_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_effective_date",
+    "bind" : "clm_effective_date",
+    "prompt" : "Clm_effective_date",
+    "size" : 2,
+    "type" : "Date"
+  }, {
+    "name" : "clm_vendor_offer_number",
+    "bind" : "clm_vendor_offer_number",
+    "prompt" : "Clm_vendor_offer_number",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_award_administrator",
+    "bind" : "clm_award_administrator",
+    "prompt" : "Clm_award_administrator",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_no_signed_copies_to_return",
+    "bind" : "clm_no_signed_copies_to_return",
+    "prompt" : "Clm_no_signed_copies_to_return",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_min_guarantee_award_amt",
+    "bind" : "clm_min_guarantee_award_amt",
+    "prompt" : "Clm_min_guarantee_award_amt",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_min_guar_award_amt_percent",
+    "bind" : "clm_min_guar_award_amt_percent",
+    "prompt" : "Clm_min_guar_award_amt_percent",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_min_order_amount",
+    "bind" : "clm_min_order_amount",
+    "prompt" : "Clm_min_order_amount",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_max_order_amount",
+    "bind" : "clm_max_order_amount",
+    "prompt" : "Clm_max_order_amount",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_amt_synced_to_agreement",
+    "bind" : "clm_amt_synced_to_agreement",
+    "prompt" : "Clm_amt_synced_to_agreement",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_amount_released",
+    "bind" : "clm_amount_released",
+    "prompt" : "Clm_amount_released",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_external_idv",
+    "bind" : "clm_external_idv",
+    "prompt" : "Clm_external_idv",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_supplier_name",
+    "bind" : "clm_supplier_name",
+    "prompt" : "Clm_supplier_name",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_supplier_site_name",
+    "bind" : "clm_supplier_site_name",
+    "prompt" : "Clm_supplier_site_name",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_source_document_id",
+    "bind" : "clm_source_document_id",
+    "prompt" : "Clm_source_document_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_issuing_office",
+    "bind" : "clm_issuing_office",
+    "prompt" : "Clm_issuing_office",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_cotr_office",
+    "bind" : "clm_cotr_office",
+    "prompt" : "Clm_cotr_office",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_cotr_contact",
+    "bind" : "clm_cotr_contact",
+    "prompt" : "Clm_cotr_contact",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_priority_code",
+    "bind" : "clm_priority_code",
+    "prompt" : "Clm_priority_code",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_mod_issuing_office",
+    "bind" : "clm_mod_issuing_office",
+    "prompt" : "Clm_mod_issuing_office",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_standard_form",
+    "bind" : "clm_standard_form",
+    "prompt" : "Clm_standard_form",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_document_format",
+    "bind" : "clm_document_format",
+    "prompt" : "Clm_document_format",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "ame_transaction_type",
+    "bind" : "ame_transaction_type",
+    "prompt" : "Ame_transaction_type",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_award_type",
+    "bind" : "clm_award_type",
+    "prompt" : "Clm_award_type",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_contract_officer",
+    "bind" : "clm_contract_officer",
+    "prompt" : "Clm_contract_officer",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_closeout_status",
+    "bind" : "clm_closeout_status",
+    "prompt" : "Clm_closeout_status",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "umbrella_program_id",
+    "bind" : "umbrella_program_id",
+    "prompt" : "Umbrella_program_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "fon_ref_id",
+    "bind" : "fon_ref_id",
+    "prompt" : "Fon_ref_id",
+    "size" : 2,
+    "type" : "Number"
+  }, {
+    "name" : "clm_default_dist_flag",
+    "bind" : "clm_default_dist_flag",
+    "prompt" : "Clm_default_dist_flag",
+    "size" : 2,
+    "type" : "String"
+  }, {
+    "name" : "clm_edagen_date",
+    "bind" : "clm_edagen_date",
+    "prompt" : "Clm_edagen_date",
+    "size" : 2,
+    "type" : "Date"
+  } ]
+}

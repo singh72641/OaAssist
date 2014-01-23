@@ -1,0 +1,22 @@
+{
+    "title" : "Query",
+    "columns" : [
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type":"Text",
+            "bind":"name",
+            "size" : 3,
+            "editable" : "N"
+        },
+        {
+            "name":"sql",
+            "prompt":"SQL",
+            "type":"textarea",
+            "bind":"sql",
+            "size" : 5,
+            "cols" : 30,
+            "rows" : 20
+        }
+    ]
+}

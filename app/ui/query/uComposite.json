@@ -1,0 +1,15 @@
+{
+    "type" : "OaComposite",
+    "inputs" : [
+        {
+            "name": "concurrent_program_name",
+            "type" : "String",
+            "required" : true
+        }
+    ],
+    "regions" : [
+        {
+            "name": "query/uComponentDetail"
+        }
+    ]
+}

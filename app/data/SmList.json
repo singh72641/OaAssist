@@ -1,0 +1,112 @@
+{
+    "SysList" : [
+		{
+			"name" : "SmComponentTypes",
+			"type" : "LIST",
+			"SysListValue" : [
+				{
+					"code" : "Report",
+					"value" : "Report"
+				},
+				{
+					"code" : "Interface",
+					"value" : "Interface"
+				},
+				{
+					"code" : "Conversion",
+					"value" : "Conversion"
+				},
+				{
+					"code" : "Extension",
+					"value" : "Extension"
+				},
+				{
+					"code" : "Process",
+					"value" : "Process"
+				}
+			]
+		},
+		{
+			"name" : "OaRegionSources",
+			"type" : "LIST",
+			"SysListValue" : [
+				{
+					"code" : "Table",
+					"value" : "Table"
+				},
+				{
+					"code" : "Query",
+					"value" : "Query"
+				},
+				{
+					"code" : "Open",
+					"value" : "Open"
+				}
+			]
+		},
+		{
+			"name" : "SmComponentStages",
+			"type" : "LIST",
+			"SysListValue" : [
+				{
+					"code" : "Plan",
+					"value" : "Plan"
+				},
+				{
+					"code" : "FSpec",
+					"value" : "Functional Specs"
+				},
+				{
+					"code" : "TSpec",
+					"value" : "Technical Specs"
+				},
+				{
+					"code" : "Dev",
+					"value" : "Development"
+				},
+				{
+					"code" : "Test",
+					"value" : "Testing"
+				},
+				{
+					"code" : "QA",
+					"value" : "In QA"
+				},
+				{
+					"code" : "Migrate",
+					"value" : "Migration"
+				},
+				{
+					"code" : "Prod",
+					"value" : "Production"
+				}
+			]
+		},
+        {
+            "name" : "SmModules",
+            "type" : "LIST",
+            "SysListValue" : [
+                {
+                    "code" : "SM",
+                    "value" : "System Management"
+                },
+                {
+                    "code" : "PO",
+                    "value" : "Purchasing"
+                },
+                {
+                    "code" : "AR",
+                    "value" : "Receivables"
+                },
+                {
+                    "code" : "AP",
+                    "value" : "Payables"
+                },
+                {
+                    "code" : "OM",
+                    "value" : "Order Management"
+                }
+            ]
+        }
+	]
+}

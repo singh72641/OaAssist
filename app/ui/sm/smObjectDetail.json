@@ -1,0 +1,52 @@
+{
+  "title" : "'Add Object'",
+  "type" : "OaFormViewR",
+  "action" : "smObject/add",
+  "regionSize" : "lg-6",
+  "method" : "POST",
+  "inputs" : [ {
+    "name" : "name",
+    "type" : "String",
+    "required" : true
+  } ],
+  "query" : {
+    "sql" : [ "select e.*", "from sm_objects e ", "where name = ?" ]
+  },
+  "columns" : [ {
+    "name" : "id",
+    "bind" : "id",
+    "prompt" : "Id",
+    "size" : 2,
+    "type" : "Number",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : false
+  }, {
+    "name" : "name",
+    "bind" : "name",
+    "prompt" : "Name",
+    "size" : 2,
+    "type" : "String",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : true
+  }, {
+    "name" : "object_type",
+    "bind" : "object_type",
+    "prompt" : "Object_type",
+    "size" : 2,
+    "type" : "String",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : true
+  }, {
+    "name" : "object_source",
+    "bind" : "object_source",
+    "prompt" : "Object_source",
+    "size" : 2,
+    "type" : "String",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : true
+  } ]
+}

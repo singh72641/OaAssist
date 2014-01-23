@@ -1,0 +1,32 @@
+{
+    "title" : "Add Region",
+    "action" : "/build/region",
+    "method" : "POST",
+    "columns" : [
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type":"Text",
+            "bind":"name",
+            "size" : 3,
+            "editable" : "Y"
+        },
+        {
+            "name":"type",
+            "prompt":"Type",
+            "type":"Select",
+            "bind":"type",
+            "size" : 3,
+            "editable" : "Y"
+        },
+        {
+            "name":"sql",
+            "prompt":"SQL",
+            "type":"textarea",
+            "bind":"sql",
+            "size" : 5,
+            "cols" : 30,
+            "rows" : 20
+        }
+    ]
+}

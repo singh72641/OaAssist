@@ -1,0 +1,12 @@
+<!DOCTYPE html><html><head></head><body>
+<div th:fragment="oafrag"><table class="table table-striped"><thead><tr>
+<th>Application_name</th>
+<th>Name</th>
+<th>Code</th>
+<th>Execution_method</th>
+<th>Target</th>
+</tr>
+</thead><tbody>
+<tr th:each="row : ${rows}"><td th:text="${row['application_name']}">sample1</td><td th:text="${row['name']}">sample1</td><td th:text="${row['code']}">sample1</td><td th:text="${row['execution_method']}">sample1</td><td th:text="${row['target']}">sample1</td></tr></tbody>
+</table></div>
+</body></html>

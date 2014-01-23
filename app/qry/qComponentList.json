@@ -1,0 +1,46 @@
+{
+    "name"  :   "qComponentList",
+    "sql"   :   [
+                " select rownum row_num, a.application_name,  cp.user_concurrent_program_name name, p.concurrent_program_name code, e.executable_name, l1.meaning execution_method, e.execution_file_name target, subroutine_name",
+                " from fnd_concurrent_programs_tl cp, fnd_application_tl a, fnd_concurrent_programs p, FND_EXECUTABLES e,  fnd_lookups l1",
+                " where cp.application_id = a.application_id",
+                " and cp.concurrent_program_id = p.concurrent_program_id",
+                " and p.executable_id = e.executable_id",
+                " and l1.lookup_type = 'CP_EXECUTION_METHOD_CODE'",
+                " and l1.lookup_code = e.execution_method_code",
+                " and application_name like '%' and user_concurrent_program_name like '%'",
+                " order by a.application_name, cp.user_concurrent_program_name"
+    ],
+    "columns" : [
+        {
+            "name"  :   "application_name",
+            "type"  :   "String"
+        },
+        {
+            "name"  :   "name",
+            "type"  :   "String"
+        },
+        {
+            "name"  :   "code",
+            "type"  :   "String"
+        },
+        {
+            "name"  :   "execution_method",
+            "type"  :   "String"
+        },
+        {
+            "name"  :   "target",
+            "type"  :   "String"
+        }
+    ],
+    "parameters" : [
+        {
+            "name"  :   "application",
+            "type"  :   "String"
+        },
+        {
+            "name"  :   "name",
+            "type"  :   "String"
+        }
+    ]
+}

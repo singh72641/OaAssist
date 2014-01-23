@@ -1,0 +1,54 @@
+{
+  "title" : "'Add Object'",
+  "type" : "OaFormR",
+  "action" : "smObject/add",
+  "regionSize" : "lg-6",
+  "method" : "POST",
+  "columns" : [ {
+    "name" : "id",
+    "bind" : "id",
+    "prompt" : "Id",
+    "size" : 2,
+    "type" : "Number",
+    "displaytype" : "text",
+    "search" : false,
+    "visible" : false
+  }, {
+    "name" : "name",
+    "bind" : "name",
+    "prompt" : "Name",
+    "size" : 5,
+    "type" : "String",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : true
+  }, {
+    "name" : "object_type",
+    "bind" : "object_type",
+    "prompt" : "Object_type",
+    "size" : 5,
+    "type" : "String",
+    "displaytype" : "select",
+    "search" : true,
+    "visible" : true,
+    "lov": "SmObjectTypes"
+  }, {
+    "name" : "object_source",
+    "bind" : "object_source",
+    "prompt" : "Object_source",
+    "size" : 5,
+    "type" : "String",
+    "displaytype" : "text",
+    "search" : true,
+    "visible" : true
+  } , {
+      "name" : "link_type",
+      "bind" : "link_type",
+      "prompt" : "Link",
+      "size" : 2,
+      "type" : "String",
+      "displaytype" : "text",
+      "search" : true,
+      "visible" : true
+  } ]
+}

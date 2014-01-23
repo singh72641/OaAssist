@@ -1,0 +1,41 @@
+{
+    "title" : "Component Objects",
+    "query" : {
+        "sql" : [
+            "select rownum row_num, co.id, co.comp_id, co.object_id, o.name, o.object_type,  co.link_type",
+            "from sm_comp_objects co, sm_objects o",
+            "where co.object_id = o.id",
+            " and comp_id = ?"
+        ],
+        "dynamic": false
+    },
+    "inputs" : [
+        {
+            "name" : "comp_id",
+            "type" : "Number",
+            "required" : true
+        }
+    ],
+    "type" : "OaGridR",
+    "action" : "smComponentList",
+    "addaction" : "'comp/add'",
+    "regionSize" : 8,
+    "showPagination" : true,
+    "columns" :[
+        {
+            "name" : "id", "bind" : "id", "prompt" : "Id", "size" : 2, "type" : "Number",
+            "search" : false,
+            "visible" : false
+        },
+        { "name" : "name", "bind" : "name", "prompt" : "Name", "size" : 2,"search" : true,
+            "type" : "String"
+        },
+        { "name" : "object_type", "bind" : "object_type", "prompt" : "Type", "size" : 2, "type" : "String",
+            "search" : true,
+            "link" : "'comp/detail/'+get('name').asText()"
+        },
+        { "name" : "link_type", "bind" : "link_type", "prompt" : "Link", "size" : 2, "type" : "String",
+            "search" : false
+        }
+    ]
+}

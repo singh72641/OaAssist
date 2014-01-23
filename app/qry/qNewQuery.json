@@ -1,0 +1,4 @@
+{
+  "name" : "qNewQuery",
+  "sql" : "select one from another\r\nwhere 1 = 2                            \r\n                        "
+}

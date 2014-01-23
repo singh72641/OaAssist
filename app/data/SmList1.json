@@ -1,0 +1,54 @@
+{
+    "SysList" : [
+        {
+            "name" : "SmObjectTypes",
+            "type" : "LIST",
+            "SysListValue" : [
+                {
+                    "code" : "DB-PKB",
+                    "value" : "Package Body"
+                },
+                {
+                    "code" : "DB-PKH",
+                    "value" : "Package Header"
+                },
+                {
+                    "code" : "DB-SYN",
+                    "value" : "Synonym"
+                },
+                {
+                    "code" : "DB-TABLE",
+                    "value" : "Table"
+                },
+                {
+                    "code" : "DB-VIEW",
+                    "value" : "View"
+                },
+                {
+                    "code" : "DB-PROC",
+                    "value" : "Stored Procedure"
+                },
+                {
+                    "code" : "HOST",
+                    "value" : "Host Script"
+                },
+                {
+                    "code" : "AOL-CONC",
+                    "value" : "Concurrent Program"
+                },
+                {
+                    "code" : "AOL-VS",
+                    "value" : "Value Set"
+                },
+                {
+                    "code" : "AOL-LOOKUP",
+                    "value" : "Lookup"
+                },
+                {
+                    "code" : "AOL-PROFILE",
+                    "value" : "Profile Option"
+                }
+            ]
+        }
+    ]
+}

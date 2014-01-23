@@ -1,0 +1,41 @@
+{   "qry":"qComponentList",
+    "regionSize": "lg-9",
+    "showPagination" : "Y",
+    "action" : "/build/query/run",
+    "columns":[{
+        "name":"application_name",
+        "prompt":"Application_name",
+        "type":"String",
+        "bind":"application_name",
+        "size": 4
+        },
+        {
+            "name":"name",
+            "prompt":"Name",
+            "type":"String",
+            "bind":"name",
+            "size": 4
+        },
+        {
+            "name":"code",
+            "prompt":"Code",
+            "type":"String",
+            "bind":"code",
+            "size": 4
+        },
+        {
+            "name":"execution_method",
+            "prompt":"Execution_method",
+            "type":"String",
+            "bind":"execution_method",
+            "size": 4
+        },
+        {
+            "name":"target",
+            "prompt":"Target",
+            "type":"String",
+            "bind":"target",
+            "size": 4
+        }
+    ]
+}
