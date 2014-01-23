@@ -26,6 +26,7 @@ public class OaConfig {
         config = new CompositeConfiguration();
         config.addConfiguration(new SystemConfiguration());
 
+        // Read config from properties file
         try {
             pConfig = new PropertiesConfiguration("oaassist.properties");
             pConfig.setAutoSave(true);
