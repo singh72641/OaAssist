@@ -7,36 +7,35 @@
     com.fasterxml.jackson.databind.JsonNode;
     com.punwire.oa.core.OaExpression;
     com.punwire.oa.core.OaUiHelper;
+    com.punwire.oa.core.OaView;
+    com.punwire.oa.core.OaViewColumn;
 </%import>
 <%args>
-    ObjectNode view;
+    OaView view;
     ObjectNode search;
     ArrayNode rows;
 </%args>
-<%java>
-    ArrayNode columns = (ArrayNode)view.get("columns");
-</%java>
-<div class="col-<% view.get("regionSize").asText() %>">
-    <h3 style="color: #003366;"><% view.get("title").asText() %></h3>
+<div class="col-<% view.s("regionSize") %>">
+    <h3 style="color: #003366;"><% view.s("title") %></h3>
     <hr/>
     <div class="row">
         <div class="col-lg-10">
-        <& OaSearchFormR; view=view; search=search; &>
+        <& OaSearchFormR; view=view; row=search; &>
         </div>
         <div class="col-lg-2 oa-action-region">
             <h4>Actions..</h4>
             <div>
-                <a href="#" ng-click="get('<% OaExpression.eval(view.get("addaction").asText(),view) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnAdd">Add</button></a>
+                <a href="#" ng-click="get('<% OaExpression.eval(view.s("addaction"),view.getView()) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnAdd">Add</button></a>
             </div>
              <div>
-                <a href="#" ng-click="get('<% OaExpression.eval(view.get("addaction").asText(),view) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnAdd">Edit</button></a>
+                <a href="#" ng-click="get('<% OaExpression.eval(view.s("addaction"),view.getView()) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnAdd">Edit</button></a>
              </div>
         </div>
     </div>
     <div class="row">
         <div class="col-lg-4">
-            <a href="#" ng-click="get('<% OaExpression.eval(view.get("addaction").asText(),view) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnAdd">Add</button></a>
-            <a href="#" ng-click="get('<% OaExpression.eval(view.get("addaction").asText(),view) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnDelete">Delete</button></a>
+            <a href="#" ng-click="get('<% OaExpression.eval(view.s("addaction"),view.getView()) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnAdd">Add</button></a>
+            <a href="#" ng-click="get('<% OaExpression.eval(view.s("addaction"),view.getView()) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnDelete">Delete</button></a>
             <%if view.has("actions")%>
                 <%java>ArrayNode actions = (ArrayNode)view.get("actions");</%java>
                 <%for int i = 0; i < actions.size(); i++ %>
@@ -54,14 +53,15 @@
             </%if>
         </div>
     </div>
+     <%java> view.setSearch(false);</%java>
     <table class="table table-striped  table-bordered table-hover table-condensed">
         <thead>
             <tr>
                 <th style="width: 25px;">Select</th>
-                <%for int i = 0; i < columns.size(); i++ %>
-                <%java> ObjectNode col = (ObjectNode)columns.get(i); </%java>
-                <%if (! col.has("visible")) || col.get("visible").asBoolean() %>
-                    <th> <% col.get("prompt").asText() %> </th>
+                <%for int i = 0; i < view.getColCount(); i++ %>
+                <%java> OaViewColumn col = view.getColumn(i); </%java>
+                <%if col.isVisible() %>
+                    <th> <% col.getPrompt() %> </th>
                 </%if>
                 </%for>
             </tr>
@@ -73,23 +73,23 @@
                 <td>
                     <input type="checkbox" name="select_\$index" ng-change="selected()" ng-model="row.oa_selected" style="width: 20px;"/>
                 </td>
-                <%for int i = 0; i < columns.size(); i++ %>
-                <%java> ObjectNode col = (ObjectNode)columns.get(i); </%java>
-                    <%if (! col.has("visible")) || col.get("visible").asBoolean() %>
-                        <%if col.get("displaytype").asText().equals("action") %>
+                <%for int i = 0; i < view.getColCount(); i++ %>
+                <%java> OaViewColumn col = view.getColumn(i);</%java>
+                    <%if col.isVisible() %>
+                        <%if col.s("displayType").equals("action") %>
                         <td>
-                            <a href="#" ng-click="get('<% OaExpression.eval(col.get("link").asText(),row) %>')">
-                                <%  col.get("prompt").asText() %>
+                            <a href="#" ng-click="get('<% OaExpression.eval(col.s("link"),row) %>')">
+                                <%  col.getPrompt() %>
                             </a>
                         </td>
                         <%elseif col.has("link") == true %>
                         <td>
-                            <a href="#" ng-click="get('<% OaExpression.eval(col.get("link").asText(),row) %>')">
-                                <%  row.get(col.get("bind").asText()).asText() %>
+                            <a href="#" ng-click="get('<% OaExpression.eval(col.s("link"),row) %>')">
+                                <%  row.get(col.s("bind")).asText() %>
                             </a>
                         </td>
                         <%else>
-                        <td> <%  row.get(col.get("bind").asText()).asText() %> </td>
+                        <td> <%  row.get(col.s("bind")).asText() %> </td>
                         </%if>
                     </%if>
                 </%for>

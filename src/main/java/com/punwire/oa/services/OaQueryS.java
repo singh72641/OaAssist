@@ -27,8 +27,9 @@ import java.util.Map;
 @Stateless
 public class OaQueryS {
 
-    SimpleDriverDataSource ds = new SimpleDriverDataSource(new OracleDriver(), "jdbc:oracle:thin:@//r12dbdev1.misqa.edc.vrsn.com:7001/dev1", "apps", "apps");
+    //SimpleDriverDataSource ds = new SimpleDriverDataSource(new OracleDriver(), "jdbc:oracle:thin:@//r12dbdev1.misqa.edc.vrsn.com:7001/dev1", "apps", "apps");
 
+    SimpleDriverDataSource ds = new SimpleDriverDataSource(new OracleDriver(), "jdbc:oracle:thin:@//ebsdb.apps.com:1521/vis", "apps", "apps");
 
     public ArrayNode runQuery(ObjectNode qry, final ArrayNode columns, ObjectNode params) {
         return runQuery(qry, columns, params, 0, 15);

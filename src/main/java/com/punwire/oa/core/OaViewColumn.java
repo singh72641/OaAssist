@@ -1,17 +1,22 @@
 package com.punwire.oa.core;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.punwire.oa.domain.SysListValue;
 import org.apache.commons.lang.WordUtils;
+
+import java.util.List;
 
 /**
  * Created by kanwal on 1/22/14.
  */
 public class OaViewColumn {
     ObjectNode col;
+    OaView view;
 
-    public OaViewColumn(ObjectNode c)
+    public OaViewColumn(ObjectNode c, OaView v)
     {
         this.col = c;
+        this.view = v;
     }
 
     public Object get(String field)
@@ -31,6 +36,12 @@ public class OaViewColumn {
         return defaultValue;
     }
 
+    public Boolean isSearchable()
+    {
+        if(col.has("search")) return col.get("search").asBoolean();
+        return false;
+    }
+
     public String getDisplayType()
     {
         return getOrDefault("displayType","text").toLowerCase();
@@ -48,8 +59,11 @@ public class OaViewColumn {
 
     public Boolean isVisible()
     {
-        if ( col.has("visible") )  return col.get("visible").asBoolean();
-        return true;
+        Boolean v = true;
+        if ( col.has("visible") )  v = col.get("visible").asBoolean();
+
+        if( view.isSearchForm  ) return isSearchable();
+        return v;
     }
 
     public boolean has(String field)
@@ -85,5 +99,10 @@ public class OaViewColumn {
             return row.get(f).asText();
         }
         return "";
+    }
+
+    public List<SysListValue> getLov(String name)
+    {
+        return view.getLov(name);
     }
 }

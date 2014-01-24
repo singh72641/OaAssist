@@ -1,39 +1,99 @@
 {
-    "title" : "Components",
-    "query" : {
-        "sql" : [
+    "title": "Components",
+    "query": {
+        "sql": [
             " select rownum row_num, c.*",
             " from sm_components c",
             " &where& "
         ],
         "dynamic": true
     },
-    "type" : "OaSearchPageR",
-    "action" : "smComponentList",
-    "addaction" : "'comp/add'",
-    "regionSize" : 8,
-    "showPagination" : true,
-    "columns" :[
+    "type": "OaSearchPageR",
+    "action": "smComponentList",
+    "addaction": "'comp/add'",
+    "regionSize": 8,
+    "showPagination": true,
+    "columns": [
         {
-            "name" : "id", "bind" : "id", "prompt" : "Id", "size" : 2, "type" : "Number",
-            "search" : false,
-            "visible" : false
+            "name": "id",
+            "bind": "id",
+            "prompt": "Id",
+            "size": "lg-2",
+            "type": "Number",
+            "displayType": "text",
+            "search": false,
+            "visible": false
         },
-        { "name" : "component_num", "bind" : "component_num", "prompt" : "Component#", "size" : 2,"search" : true,
-            "type" : "String"
+        {
+            "name": "component_num",
+            "bind": "component_num",
+            "prompt": "Component#",
+            "size": "lg-2",
+            "search": true,
+            "type": "String",
+            "displayType": "text"
         },
-        { "name" : "name", "bind" : "name", "prompt" : "Name", "size" : 2, "type" : "String",
-            "search" : true,
-            "link" : "'comp/detail/'+get('component_num').asText()"
+        {
+            "name": "name",
+            "bind": "name",
+            "prompt": "Name",
+            "size": "lg-5",
+            "type": "String",
+            "displayType": "text",
+            "search": true,
+            "link": "'comp/detail/'+get('component_num').asText()"
         },
-        { "name" : "module", "bind" : "module", "prompt" : "Module", "size" : 2, "type" : "String" ,
-            "search" : true,"lov":"SmModuleList","displaytype":"select"
+        {
+            "name": "module",
+            "bind": "module",
+            "prompt": "Module",
+            "size": "lg-2",
+            "type": "String",
+            "search": true,
+            "lov": "SmModuleList",
+            "displayType": "select"
         },
-        { "name" : "track", "bind" : "track", "prompt" : "Track", "size" : 2, "type" : "String", "search" : true },
-        { "name" : "component_type", "bind" : "component_type", "prompt" : "Type", "size" : 2, "type" : "String" },
-        { "name" : "description", "bind" : "description", "prompt" : "Description", "size" : 2, "type" : "String" },
-        { "name" : "sm_stage", "bind" : "sm_stage", "prompt" : "Stage", "size" : 2, "type" : "String" },
-        { "name" : "sm_stage_date", "bind" : "sm_stage_date", "prompt" : "Sm_stage_date", "size" : 2, "type" : "Date",
-            "visible" : false }
+        {
+            "name": "track",
+            "bind": "track",
+            "prompt": "Track",
+            "displayType": "text",
+            "size": "lg-2",
+            "type": "String",
+            "search": true
+        },
+        {
+            "name": "component_type",
+            "bind": "component_type",
+            "prompt": "Type",
+            "displayType": "text",
+            "size": "lg-3",
+            "type": "String"
+        },
+        {
+            "name": "description",
+            "bind": "description",
+            "prompt": "Description",
+            "displayType": "text",
+            "size": "lg-5",
+            "type": "String"
+        },
+        {
+            "name": "sm_stage",
+            "bind": "sm_stage",
+            "displayType": "text",
+            "prompt": "Stage",
+            "size": "lg-3",
+            "type": "String"
+        },
+        {
+            "name": "sm_stage_date",
+            "bind": "sm_stage_date",
+            "displayType": "text",
+            "prompt": "Sm_stage_date",
+            "size": "lg-3",
+            "type": "Date",
+            "visible": false
+        }
     ]
 }

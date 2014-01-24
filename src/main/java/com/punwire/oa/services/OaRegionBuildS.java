@@ -10,6 +10,7 @@ import com.punwire.oa.core.OaViewResult;
 import com.punwire.oa.ui.OaFormR;
 import com.punwire.oa.ui.OaFormTableR;
 import com.punwire.oa.ui.TestFormR;
+import com.punwire.oa.ui.TestPageR;
 import com.sun.org.apache.xpath.internal.SourceTree;
 
 import javax.ejb.Stateless;
@@ -46,9 +47,12 @@ public class OaRegionBuildS extends OaController {
     @Inject
     private SysListS sysListS;
 
+    @Context
+    HttpServletRequest req;
+
     @GET
     @Produces("application/json")
-    public String addRegion(@Context HttpServletRequest req) {
+    public String addRegion() {
         ObjectNode view = viewS.getView("query/uRegionAdd");
         return view.toString();
 
@@ -56,7 +60,7 @@ public class OaRegionBuildS extends OaController {
 
     @GET
     @Produces("text/html")
-    public String addRegionUi(@Context HttpServletRequest req) {
+    public String addRegionUi() {
         OaViewResult o = viewS.buildView("query/uRegionAdd", newObject());
         return o.content;
     }
@@ -66,14 +70,22 @@ public class OaRegionBuildS extends OaController {
     @Produces("text/html")
     @Path("testu/{viewName}")
     public String testUi(@PathParam("viewName") String viewName) {
+        getSession(req);
         System.out.println("initializing view " + "test/" + viewName);
         OaView view = new OaView("test/" + viewName, sysListS);
         StringWriter writer = new StringWriter();
         try {
             new TestFormR().render(writer, view, newObject());
+
+            ObjectNode con = newObject();
+            con.put("center",writer.toString());
+            writer = new StringWriter();
+            System.out.println(con.toString());
+            new TestPageR().render(writer,con,oaSession);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
         return writer.toString();
     }
 
@@ -134,10 +146,10 @@ public class OaRegionBuildS extends OaController {
 
         ObjectNode row = mapper.createObjectNode();
 
-        ObjectNode view = getView("query/uRegionColumnAdd");
+        OaView view = new OaView("query/uRegionColumnAdd",sysListS);
         StringWriter writer = new StringWriter();
         try {
-            new OaFormR().render(writer, view, row, viewS);
+            new OaFormR().render(writer, view, row);
         } catch (Exception ex) {
             ex.printStackTrace();
         }

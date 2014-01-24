@@ -31,7 +31,7 @@ public class SmObjectS extends OaController{
     @Context
     HttpServletRequest req;
 
-    @PersistenceContext(type = PersistenceContextType.TRANSACTION)
+    @PersistenceContext
     private EntityManager entityManager;
 
     /**

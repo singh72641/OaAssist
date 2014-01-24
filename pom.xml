@@ -21,18 +21,18 @@
             <scope>provided</scope>
         </dependency>
 
-        <dependency>
-            <groupId>org.glassfish.jersey.containers</groupId>
-            <artifactId>jersey-container-servlet</artifactId>
-            <version>2.5.1</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
-            <scope>provided</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.glassfish.jersey.containers</groupId>-->
+            <!--<artifactId>jersey-container-servlet</artifactId>-->
+            <!--<version>2.5.1</version>-->
+            <!--<exclusions>-->
+                <!--<exclusion>-->
+                    <!--<groupId>com.google.guava</groupId>-->
+                    <!--<artifactId>guava</artifactId>-->
+                <!--</exclusion>-->
+            <!--</exclusions>-->
+            <!--<scope>provided</scope>-->
+        <!--</dependency>-->
 
         <dependency>
             <groupId>com.fasterxml.jackson.jaxrs</groupId>
@@ -88,37 +88,26 @@
             <artifactId>flyway-core</artifactId>
             <version>2.2.1</version>
         </dependency>
-        <dependency>
-            <groupId>org.jboss.weld</groupId>
-            <artifactId>weld-se</artifactId>
-            <version>1.0.1-Final</version>
-            <scope>test</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.weld</groupId>-->
+            <!--<artifactId>weld-se</artifactId>-->
+            <!--<version>1.0.1-Final</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.11</version>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>junit</groupId>-->
+            <!--<artifactId>junit</artifactId>-->
+            <!--<version>4.11</version>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
 
-        <dependency>
-            <groupId>org.jboss.arquillian.junit</groupId>
-            <artifactId>arquillian-junit-container</artifactId>
-            <scope>test</scope>
-        </dependency>
+        <!--<dependency>-->
+            <!--<groupId>org.jboss.arquillian.junit</groupId>-->
+            <!--<artifactId>arquillian-junit-container</artifactId>-->
+            <!--<scope>test</scope>-->
+        <!--</dependency>-->
     </dependencies>
-
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.jboss.arquillian</groupId>
-                <artifactId>arquillian-bom</artifactId>
-                <version>1.1.2.Final</version>
-                <scope>import</scope>
-                <type>pom</type>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <build>
         <finalName>OaAssist</finalName>
@@ -153,79 +142,79 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>1.0.0.Beta1</version>
-                <configuration>
-                    <version>8.0.0.CR1</version>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>deploy-oracle</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>deploy-artifact</goal>
-                        </goals>
-                        <configuration>
-                            <groupId>com.oracle</groupId>
-                            <artifactId>ojdbc6</artifactId>
-                            <name>ojdbc6.jar</name>
-                        </configuration>
-                    </execution>
-                    <execution>
-                        <id>add-datasource</id>
-                        <phase>install</phase>
-                        <goals>
-                            <goal>add-resource</goal>
-                        </goals>
-                        <configuration>
-                            <address>subsystem=datasources</address>
-                            <resources>
-                                <resource>
-                                    <address>data-source=java:jboss/datasources/oa</address>
-                                    <enable-resource>true</enable-resource>
-                                    <properties>
-                                        <jndi-name>java:jboss/datasources/oa</jndi-name>
-                                        <enabled>true</enabled>
-                                        <driver-name>ojdbc6.jar</driver-name>
-                                    </properties>
-                                </resource>
-                                <resource>
-                                    <address>data-source=java:jboss/datasources/oa,datasource-properties=DatabaseName</address>
-                                    <properties>
-                                        <value>DEV1</value>
-                                    </properties>
-                                </resource>
-                                <resource>
-                                    <address>data-source=java:jboss/datasources/oa,datasource-properties=ServerName</address>
-                                    <properties>
-                                        <value>r12dbdev1.misqa.edc.vrsn.com</value>
-                                    </properties>
-                                </resource>
-                                <resource>
-                                    <address>data-source=java:jboss/datasources/oa,datasource-properties=Port</address>
-                                    <properties>
-                                        <value>7001</value>
-                                    </properties>
-                                </resource>
-                                <resource>
-                                    <address>data-source=java:jboss/datasources/oa,datasource-properties=User</address>
-                                    <properties>
-                                        <value>apps</value>
-                                    </properties>
-                                </resource>
-                                <resource>
-                                    <address>data-source=java:jboss/datasources/postgresDS,datasource-properties=Password</address>
-                                    <properties>
-                                        <value>apps</value>
-                                    </properties>
-                                </resource>
-                            </resources>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
+            <!--<plugin>-->
+                <!--<groupId>org.wildfly.plugins</groupId>-->
+                <!--<artifactId>wildfly-maven-plugin</artifactId>-->
+                <!--<version>1.0.0.Beta1</version>-->
+                <!--<configuration>-->
+                    <!--<version>8.0.0.CR1</version>-->
+                <!--</configuration>-->
+                <!--<executions>-->
+                    <!--<execution>-->
+                        <!--<id>deploy-oracle</id>-->
+                        <!--<phase>package</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>deploy-artifact</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<groupId>com.oracle</groupId>-->
+                            <!--<artifactId>ojdbc6</artifactId>-->
+                            <!--<name>ojdbc6.jar</name>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                    <!--<execution>-->
+                        <!--<id>add-datasource</id>-->
+                        <!--<phase>install</phase>-->
+                        <!--<goals>-->
+                            <!--<goal>add-resource</goal>-->
+                        <!--</goals>-->
+                        <!--<configuration>-->
+                            <!--<address>subsystem=datasources</address>-->
+                            <!--<resources>-->
+                                <!--<resource>-->
+                                    <!--<address>data-source=java:jboss/datasources/oa</address>-->
+                                    <!--<enable-resource>true</enable-resource>-->
+                                    <!--<properties>-->
+                                        <!--<jndi-name>java:jboss/datasources/oa</jndi-name>-->
+                                        <!--<enabled>true</enabled>-->
+                                        <!--<driver-name>ojdbc6.jar</driver-name>-->
+                                    <!--</properties>-->
+                                <!--</resource>-->
+                                <!--<resource>-->
+                                    <!--<address>data-source=java:jboss/datasources/oa,datasource-properties=DatabaseName</address>-->
+                                    <!--<properties>-->
+                                        <!--<value>DEV1</value>-->
+                                    <!--</properties>-->
+                                <!--</resource>-->
+                                <!--<resource>-->
+                                    <!--<address>data-source=java:jboss/datasources/oa,datasource-properties=ServerName</address>-->
+                                    <!--<properties>-->
+                                        <!--<value>r12dbdev1.misqa.edc.vrsn.com</value>-->
+                                    <!--</properties>-->
+                                <!--</resource>-->
+                                <!--<resource>-->
+                                    <!--<address>data-source=java:jboss/datasources/oa,datasource-properties=Port</address>-->
+                                    <!--<properties>-->
+                                        <!--<value>7001</value>-->
+                                    <!--</properties>-->
+                                <!--</resource>-->
+                                <!--<resource>-->
+                                    <!--<address>data-source=java:jboss/datasources/oa,datasource-properties=User</address>-->
+                                    <!--<properties>-->
+                                        <!--<value>apps</value>-->
+                                    <!--</properties>-->
+                                <!--</resource>-->
+                                <!--<resource>-->
+                                    <!--<address>data-source=java:jboss/datasources/postgresDS,datasource-properties=Password</address>-->
+                                    <!--<properties>-->
+                                        <!--<value>apps</value>-->
+                                    <!--</properties>-->
+                                <!--</resource>-->
+                            <!--</resources>-->
+                        <!--</configuration>-->
+                    <!--</execution>-->
+                <!--</executions>-->
+            <!--</plugin>-->
             <plugin>
                 <groupId>org.glassfish.embedded</groupId>
                 <artifactId>maven-embedded-glassfish-plugin</artifactId>

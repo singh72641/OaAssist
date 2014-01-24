@@ -35,12 +35,14 @@ public class OaConfig {
             System.out.println(config.getString("oa.appPath"));
             baseURI = config.getString("oa.baseURI","/");
             resourceURI = config.getString("oa.baseURI" + "/resources/");
-            appPath = config.getString("oa.appPath");
+            appPath = config.getString("oa.appPath","h:\\projects\\xxx");
             isLoaded = true;
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        OaDefaults.setConfig(this);
 
     }
 
@@ -58,6 +60,8 @@ public class OaConfig {
 
     public void setBaseURI(String baseURI) {
         if( baseURI == null || baseURI.length() == 0) baseURI = "/";
+
+        if( ! baseURI.endsWith("/") ) baseURI = baseURI + "/";
         this.baseURI = baseURI;
         System.out.println(">>>> Setting Base URI " + baseURI);
         pConfig.setProperty("oa.baseURI",baseURI);

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.punwire.oa.core.OaDefaults;
 import com.punwire.oa.core.OaMissingParameter;
+import com.punwire.oa.core.OaView;
 import com.punwire.oa.core.OaViewResult;
 import com.punwire.oa.domain.OaMenu;
 import com.punwire.oa.domain.SysListValue;
@@ -138,14 +139,14 @@ public class OaViewS {
             }
             if (vType.equals("OaFormR")) {
                 System.out.println(row.toString());
-                new OaFormR().render(writer, view, row, this);
+                new OaFormR().render(writer, new OaView(name,lovService), row);
                 return new OaViewResult(writer.toString(), row);
             } else if (vType.equals("OaSearchPageR")) {
                 ArrayNode rows = queryService.runQuery(query, columns, parameters);
                 System.out.println("Search Page Rows");
                 System.out.println(rows.toString());
                 ObjectNode searchDefault = mapper.createObjectNode();
-                new OaSearchPageR().render(writer, view, searchDefault, rows);
+                new OaSearchPageR().render(writer, new OaView(name,lovService), searchDefault, rows);
             } else if (vType.equals("OaFormViewR")) {
                 System.out.println(row.toString());
                 ObjectNode searchDefault = mapper.createObjectNode();

@@ -6,36 +6,17 @@
     com.fasterxml.jackson.databind.node.ObjectNode;
     com.fasterxml.jackson.databind.JsonNode;
     com.punwire.oa.core.OaExpression;
-    com.punwire.oa.core.OaUiHelper;
+    com.punwire.oa.core.OaView;
+    com.punwire.oa.core.OaViewColumn;
 </%import>
 <%args>
-    ObjectNode view;
-    ObjectNode search;
+    OaView view;
+    ObjectNode row;
 </%args>
-<%java>
-    ArrayNode columns = (ArrayNode)view.get("columns");
-</%java>
-<form id="searchForm1"  ng-submit="submit('<% view.get("action").asText() %>')" method="POST" role="form" ng-controller="OaFormCtrl" class="form-horizontal">
+<%java> view.setSearch(true); </%java>
+<form id="<% view.getName() %>"  ng-submit="submit('<% view.getAction() %>')" method="POST" role="form" ng-controller="OaFormCtrl" class="form-horizontal">
     <div class="oa-search-form">
-        <%for int i = 0; i < columns.size(); i++ %>
-        <%java> ObjectNode col = (ObjectNode)columns.get(i); </%java>
-        <%if col.has("search") && col.get("search").asBoolean() == true %>
-        <div class="form-group">
-            <label for="<% col.get("name").asText() %>" class="col-sm-3 control-label"><% col.get("prompt").asText() %> </label>
-            <div class="col-md-<% col.get("size").asText() %>">
-                <%if col.has("displaytype") %>
-                    <%if col.get("type").asText().equals("textarea") %>
-                        <textarea class="form-control" name="<% col.get("name").asText() %>"  <%if col.has("cols") %>cols="<% col.get("cols").asText() %>"</%if> <%if col.has("rows") %>rows="<% col.get("rows").asText() %>"</%if>></textarea>
-                    <%else>
-                        <input type="<% col.get("type").asText() %>" name="<% col.get("name").asText() %>" class="form-control" value=""/>
-                    </%if>
-                <%else>
-                    <input type="text" name="<% col.get("name").asText() %>" class="form-control" value=""/>
-                </%if>
-            </div>
-        </div>
-        </%if>
-        </%for>
+        <& /com/punwire/oa/ui/OaSingleColumnR; view=view; row=row; &>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-10">
               <button type="submit" class="btn btn-primary btn-xs">Search</button>
@@ -43,6 +24,5 @@
             </div>
          </div>
     </div>
-
 </form>
 
