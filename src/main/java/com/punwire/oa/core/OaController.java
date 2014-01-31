@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.punwire.oa.domain.OaMenu;
 import com.punwire.oa.services.OaMenuS;
+import com.punwire.oa.services.SysListS;
 import com.punwire.oa.ui.OaLayoutR;
 
 import javax.ejb.Stateless;
@@ -14,13 +15,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.StringWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by kanwal on 1/3/14.
  */
 @Stateless
 public class OaController {
-    protected static ObjectMapper mapper = new ObjectMapper();
+    protected final ObjectMapper mapper = new ObjectMapper();
+    protected final SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy");
+
     protected static OaLayoutR layout = new OaLayoutR();
     protected boolean wrapLayout=false;
     protected OaSession oaSession;
@@ -31,8 +36,16 @@ public class OaController {
     @Inject
     OaMenuS menuS;
 
+    @Inject
+    SysListS lovService;
+
     public OaController() {
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
+    }
+
+    public SysListS getLovService()
+    {
+        return lovService;
     }
 
     public OaSession getSession(HttpServletRequest req){
@@ -115,5 +128,31 @@ public class OaController {
         {
             return content;
         }
+    }
+
+    public Calendar getDate(String input){
+
+        if( input == null || input.length() < 6) return null;
+        Calendar c = Calendar.getInstance();
+        try {
+            java.util.Date d = sd.parse(input);
+            c.setTime(d);
+            return c;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return null;
+        }
+    }
+
+    public String formatDate(Calendar input){
+
+        if( input == null ) return "";
+        try {
+            String out = sd.format(input.getTime());
+            return out;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return input.getTime().toString();
     }
 }

@@ -16,6 +16,7 @@
             "required" : true
         }
     ],
+    "queryResult" : "List",
     "type" : "OaGridR",
     "action" : "smComponentList",
     "addaction" : "'comp/add'",

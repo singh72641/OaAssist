@@ -2,6 +2,7 @@ package com.punwire.oa.domain;
 
 import javax.persistence.*;
 import javax.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * Created by kanwal on 1/20/14.
@@ -9,6 +10,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 @Entity
 @XmlRootElement
 @Table(name = "sm_objects")
+
+@SqlResultSetMapping(name="SmObjectSourceV",
+        classes={
+                @ConstructorResult(targetClass=SmObjectSource.class, columns={
+                        @ColumnResult(name="line", type=Integer.class),
+                        @ColumnResult(name="text", type=String.class)
+                })
+        }
+)
 public class SmObject {
 
     @Id
@@ -25,6 +35,9 @@ public class SmObject {
 
     @Column(name = "object_source")
     private String objectSource;
+
+    @Transient
+    private List<SmObjectSource> dbSource=null;
 
     public Long getId() {
         return id;
@@ -56,5 +69,13 @@ public class SmObject {
 
     public void setObjectSource(String objectSource) {
         this.objectSource = objectSource;
+    }
+
+    public List<SmObjectSource> getDbSource() {
+        return dbSource;
+    }
+
+    public void setDbSource(List<SmObjectSource> dbSource) {
+        this.dbSource = dbSource;
     }
 }

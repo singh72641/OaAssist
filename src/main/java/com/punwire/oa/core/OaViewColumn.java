@@ -1,5 +1,6 @@
 package com.punwire.oa.core;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.punwire.oa.domain.SysListValue;
 import org.apache.commons.lang.WordUtils;
@@ -16,6 +17,12 @@ public class OaViewColumn {
     public OaViewColumn(ObjectNode c, OaView v)
     {
         this.col = c;
+        this.view = v;
+    }
+
+    public OaViewColumn(OaObject c, OaView v)
+    {
+        this.col = c.node;
         this.view = v;
     }
 
@@ -45,6 +52,12 @@ public class OaViewColumn {
     public String getDisplayType()
     {
         return getOrDefault("displayType","text").toLowerCase();
+    }
+
+    public Boolean isHidden()
+    {
+        if ( getOrDefault("displayType","text").equals("hidden") ) return true;
+        return false;
     }
 
     public boolean isTextArea()
@@ -91,7 +104,7 @@ public class OaViewColumn {
         return getOrDefault("prompt", WordUtils.capitalizeFully(getName()));
     }
 
-    public String bind(ObjectNode row)
+    public String bind(JsonNode row)
     {
         String f = getOrDefault("bind",getName());
         if( row.has(f))

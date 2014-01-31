@@ -18,8 +18,11 @@ public class OaTest {
 
     public static void main(String[] args) {
         try{
-            String file = OaDefaults.getAppPath() + File.separator + "ui" + File.separator + "test" + File.separator + "testEntityAdd.json";
+            //String file = OaDefaults.getAppPath() + File.separator + "ui" + File.separator + "test" + File.separator + "testEntityAdd.json";
+            String file = "h:/projects/OaAssist/app" + File.separator + "ui" + File.separator + "test" + File.separator + "testEntityAdd.json";
             JsonNode view =  mapper.readTree(new File(file));
+
+            JsonNode node = view.get(1);
 
             System.out.println(view.toString());
 

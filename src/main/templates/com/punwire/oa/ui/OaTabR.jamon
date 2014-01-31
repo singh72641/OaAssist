@@ -4,23 +4,19 @@
     com.punwire.oa.core.OaExpression;
     com.fasterxml.jackson.databind.node.ArrayNode;
     com.fasterxml.jackson.databind.node.ObjectNode;
+    com.fasterxml.jackson.databind.JsonNode;
     com.punwire.oa.core.OaView;
     com.punwire.oa.core.OaViewColumn;
+    com.punwire.oa.core.OaPanel;
     com.punwire.oa.services.OaViewS;
     com.punwire.oa.domain.SysListValue;
-    com.fasterxml.jackson.databind.JsonNode;
 </%import>
 <%args>
     OaView view;
     JsonNode row;
+    OaPanel panel;
 </%args>
-<%for int i = 0; i < view.getColCount(); i++ %>
-<%java> OaViewColumn col = view.getColumn(i); </%java>
-<%if col.isVisible() %>
-    <div class="form-group">
-        <div class="col-lg-10">
-        <& /com/punwire/oa/ui/OaInputFieldR; col = col; row = row; &>
-        </div>
-    </div>
-</%if>
-</%for>
+<ul class="nav nav-tabs">
+    <% panel.render(view, row) #n %>
+</ul>
+

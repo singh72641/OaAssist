@@ -3,10 +3,7 @@ package com.punwire.oa.services;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.punwire.oa.core.OaConfig;
-import com.punwire.oa.core.OaController;
-import com.punwire.oa.core.OaView;
-import com.punwire.oa.core.OaViewResult;
+import com.punwire.oa.core.*;
 import com.punwire.oa.ui.OaFormR;
 import com.punwire.oa.ui.OaFormTableR;
 import com.punwire.oa.ui.TestFormR;
@@ -61,7 +58,8 @@ public class OaRegionBuildS extends OaController {
     @GET
     @Produces("text/html")
     public String addRegionUi() {
-        OaViewResult o = viewS.buildView("query/uRegionAdd", newObject());
+        OaObject input = new OaObject();
+        OaViewResult o = viewS.buildView("query/uRegionAdd", input);
         return o.content;
     }
 
@@ -111,7 +109,7 @@ public class OaRegionBuildS extends OaController {
     @Path("{viewName}")
     @Produces("text/html")
     public String editRegion(@Context HttpServletRequest req, @PathParam("viewName") String viewName) {
-        ObjectNode param = newObject();
+        OaObject param = new OaObject();
         param.put("name", viewName);
         OaViewResult o = viewS.buildView("query/uRegionDetail", param);
         return o.content;

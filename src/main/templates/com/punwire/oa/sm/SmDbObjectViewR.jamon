@@ -1,0 +1,37 @@
+<%import>
+    com.punwire.oa.services.SmObjectS;
+    com.punwire.oa.domain.SmObject;
+    com.punwire.oa.domain.SmObjectSource;
+</%import>
+<%args>
+    SmObjectS service;
+    SmObject obj;
+</%args>
+<h3 style="color: #003366;"><% obj.getName() %></h3>
+<hr>
+<div class="oa-grid-title">
+        <div class="oa-title-buttons">
+            <ul class="pagination-sm oa-pagination">
+              <li><a href="#" ng-click="prevPage()">« Prev</a></li>
+              <li><a href="#" ng-click="nextPage()">Next »</a></li>
+            </ul>
+        </div>
+</div>
+
+<table>
+    <thead>
+        <tr>
+            <th>Line</th>
+            <th>Text</th>
+        </tr>
+    </thead>
+    <tbody>
+        <%java> Object o = obj.getDbSource(); System.out.println("DbSourceType " + o.getClass()); </%java>
+        <%for SmObjectSource source : obj.getDbSource() %>
+            <tr>
+                <td><% source.getLineNum() %></td>
+                <td><% source.getLineText() #j %></td>
+            </tr>
+        </%for>
+    </tbody>
+</table>

@@ -1,0 +1,10 @@
+<%import>
+</%import>
+<%args>
+    String btnName;
+    String btnTitle="Cancel";
+    String btnType="button";
+    String btnClass="btn btn-default btn-xs";
+    String btnClick="";
+</%args>
+<button type="<% btnType %>" class="<% btnClass %>" ng-click="<% btnClick %>"><% btnTitle %></button>

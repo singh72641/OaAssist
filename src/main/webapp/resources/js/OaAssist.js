@@ -134,6 +134,44 @@ oa.controller('OaCtrl', ['$scope', '$http', '$compile', '$location', function ($
 
     };
 
+    $scope.getTab = function (tab, uri, pageNum) {
+        console.log("GET1:  " + uri);
+        var appendPage = false;
+        if (typeof pageNum === "undefined")
+        {
+            appendPage = false;
+            $scope.currentPage=0;
+            var fullURI = $scope.baseURI +  uri
+        }
+        else
+        {
+            appendPage = true;
+            $scope.currentPage=pageNum;
+            var fullURI = $scope.baseURI + uri + "/" + pageNum;
+        }
+
+        $location.path(uri);
+        $scope.prevURI = $scope.currentURI;
+        $scope.currentURI = uri;
+
+        $http({
+            url: fullURI,
+            method: "GET",
+            headers: { 'Accept': 'text/html',"X-Oaclient" : "y"}
+        }).success(function(data) {
+                console.log("Got data back");
+
+                var template = angular.element(data);
+                var linkFn = $compile(template);
+                linkFn($scope);
+
+                $('#'+tab).empty();
+                $('#'+tab).append(template);
+            });
+
+        console.log("BackURI: " + $scope.prevURI);
+    };
+
     $scope.get = function (uri, pageNum) {
         console.log("GET1:  " + uri);
         var appendPage = false;

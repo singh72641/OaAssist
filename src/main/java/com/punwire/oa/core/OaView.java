@@ -1,28 +1,28 @@
 package com.punwire.oa.core;
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.punwire.oa.domain.SysListValue;
-import com.punwire.oa.services.OaViewS;
 import com.punwire.oa.services.SysListS;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.File;
-import java.util.Iterator;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by klobana on 1/22/14.
  */
 public class OaView {
-    ObjectMapper mapper = new ObjectMapper();
+    static ObjectMapper mapper = new ObjectMapper();
     ObjectNode view;
     ArrayNode cols;
     SysListS listS;
     String viewName;
     Boolean isSearchForm=false;
+    Boolean isReadOnly=false;
+    HashMap<String,OaObject> columnMap=null;
 
     public OaView(String name, SysListS ls)
     {
@@ -44,6 +44,15 @@ public class OaView {
         return view;
     }
 
+    public void setReadOnly(Boolean rOnly)
+    {
+        this.isReadOnly = rOnly;
+    }
+
+    public Boolean isReadOnly(){
+        return isReadOnly;
+    }
+
     public Boolean has(String field)
     {
         return view.has(field);
@@ -62,6 +71,11 @@ public class OaView {
     public String getAction()
     {
         return getOrDefault("action","");
+    }
+
+    public String getTemplate()
+    {
+        return getOrDefault("type","OaFormR");
     }
 
     public void setSearch(Boolean s)
@@ -95,41 +109,69 @@ public class OaView {
         return cols.size();
     }
 
-    public void layout()
+    public Boolean hasLayout()
     {
-        String file = OaDefaults.getAppPath()  + File.separator + "ui" + File.separator + viewName + "L.json";
-        try
-        {
-            ObjectNode viewLayout =  (ObjectNode)mapper.readTree(new File(file));
-            Iterator<String> fields = viewLayout.fieldNames();
-            while(fields.hasNext())
-            {
-                String field = fields.next();
-                view.set(field, viewLayout.get(field));
-            }
-            ArrayNode colLayouts = (ArrayNode)view.get("columns");
+        if( view.has("layout") ) return true;
+        return false;
+    }
 
-            for(int c=0;c<colLayouts.size();c++)
-            {
-                //Apply Column Layouts
-                ObjectNode colLayout = (ObjectNode)colLayouts.get(c);
-                ObjectNode col = (ObjectNode)colLayouts.get(c);
-                fields = colLayout.fieldNames();
-                while(fields.hasNext())
-                {
-                    String field = fields.next();
-                    view.set(field, viewLayout.get(field));
-                }
-            }
+    public OaPanel getFormPanel()
+    {
+        ObjectNode layout;
+        if( ! hasLayout() ) layout = genFormLayout();
+        else layout = (ObjectNode)view.get("layout");
 
-        }catch(Exception ex)
-        {
-            ex.printStackTrace();
-        }
+        return new OaPanel(layout);
     }
 
     public List<SysListValue> getLov(String name)
     {
         return listS.getValues(name);
     }
+
+    public HashMap<String, OaObject> getColumnMap()
+    {
+        if( columnMap != null ) return columnMap;
+        columnMap = new HashMap<>();
+        int cCount = cols.size();
+        for(int c=0;c<cCount;c++ )
+        {
+            OaObject col = new OaObject( (ObjectNode)cols.get(c) );
+            columnMap.put( col.s("name"),col );
+        }
+        return columnMap;
+    }
+
+    public Boolean isList()
+    {
+        if( ! view.has("queryResult") ) return false;
+
+        if( view.get("queryResult").asText().equals("List")) return true;
+
+        return false;
+    }
+
+    public OaObject o(String name)
+    {
+        if( view.has(name) ) return new OaObject((ObjectNode)view.get(name));
+        return null;
+    }
+
+    public ObjectNode genFormLayout()
+    {
+        ObjectNode layout = mapper.createObjectNode();
+
+        int colCount = cols.size();
+        for(int c=0;c<colCount;c++)
+        {
+            ObjectNode row = mapper.createObjectNode();
+            ObjectNode col = (ObjectNode) cols.get(c);
+            ObjectNode inputField = mapper.createObjectNode();
+            inputField.put("name",col.get("name"));
+            row.put("OaInputFieldR_1", inputField);
+            layout.put("OaRowR_"+c,row);
+        }
+        return layout;
+    }
+
 }

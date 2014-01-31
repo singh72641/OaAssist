@@ -8,12 +8,13 @@
     com.punwire.oa.core.OaExpression;
     com.punwire.oa.core.OaUiHelper;
     com.punwire.oa.core.OaView;
+    com.punwire.oa.core.OaObject;
     com.punwire.oa.core.OaViewColumn;
 </%import>
 <%args>
     OaView view;
-    ObjectNode search;
-    ArrayNode rows;
+    JsonNode search;
+    JsonNode rows;
 </%args>
 <div class="col-<% view.s("regionSize") %>">
     <h3 style="color: #003366;"><% view.s("title") %></h3>

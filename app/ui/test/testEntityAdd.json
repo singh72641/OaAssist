@@ -42,8 +42,7 @@
         "OaRow_1" : {
             "OaInput_1" : {
                 "name":"component_num",
-                "bind":"component_num",
-
+                "bind":"component_num"
             }
         },
         "OaRow_2" : {

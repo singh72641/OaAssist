@@ -1,0 +1,36 @@
+{
+    "type" : "OaCompositeR",
+    "inputs" : [
+        {
+            "name": "component_num",
+            "type" : "String",
+            "required" : true
+        }
+    ],
+    "layout" : {
+        "OaRowR_1" : {
+            "OaViewR_1" : {
+                "name" : "sm/smComponentDetail",
+                "inputMap" : {
+                  "component_num" : "component_num"
+                }
+            }
+        },
+        "OaRowR_2" : {
+            "OaTabR_1" : {
+                "OaTabPage_1" : {
+                    "title" : "Objects",
+                    "OaViewR_1" : {
+                        "name" : "sm/smComponentObjectList",
+                        "inputMap" : {
+                            "comp_id" : "smComponentDetail.id"
+                        }
+                    }
+                },
+                "OaTabPage_2" : {
+                    "title" : "Objects"
+                }
+            }
+        }
+    }
+}

@@ -1,26 +1,24 @@
 package com.punwire.oa.services;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.punwire.oa.core.OaController;
-import com.punwire.oa.core.OaSession;
-import com.punwire.oa.core.OaViewResult;
+import com.punwire.oa.core.*;
 import com.punwire.oa.domain.SmComponent;
-import com.punwire.oa.sm.SmComponentR;
+import com.punwire.oa.sm.SmCompObjectListR;
+import com.punwire.oa.sm.SmComponentDetailR;
 
-
+import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceContextType;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.SecurityContext;
 import java.io.StringWriter;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -44,6 +42,12 @@ public class SmComponentS extends OaController {
     @PersistenceContext(type = PersistenceContextType.TRANSACTION)
     private EntityManager entityManager;
 
+
+    @PostConstruct
+    public void init() {
+        OaDefaults.viewS = viewS;
+    }
+
     /**
      * ************************************************************************
      * This section is for UI
@@ -53,9 +57,8 @@ public class SmComponentS extends OaController {
     //This will return list of Ccmponents
     @GET
     public String searchComponent() {
-        ObjectNode param = newObject();
-        OaViewResult o = viewS.buildView("sm/smComponentList", param);
-        return o.content;
+        OaObject param = new OaObject();
+        return aListComponent(param);
     }
 
 
@@ -63,7 +66,7 @@ public class SmComponentS extends OaController {
     @GET
     @Path("add")
     public String addComponent() {
-        ObjectNode param = newObject();
+        OaObject param = new OaObject();
         OaViewResult o = viewS.buildView("sm/smComponentAdd", param);
         return o.content;
     }
@@ -75,36 +78,91 @@ public class SmComponentS extends OaController {
     public String saveComponent(ObjectNode form) {
         //Save the component Details
         add(form);
-        return addComponent();
+        return searchComponent();
     }
 
     //This will return list of Ccmponents
     @GET
     @Path("detail/{compName}")
     public String viewComponent(@PathParam("compName") String compName) {
-        ObjectNode param = newObject();
-        param.put("_param0",compName);
+        OaObject param = new OaObject();
+        param.put("_param0", compName);
 
-        ObjectNode row = viewS.getViewRow("sm/smComponentDetail",param);
-        System.out.println(row.toString());
+        return aDetailComponent(param);
+    }
+
+    @GET
+    @Path("edit/{compName}")
+    public String editComponent(@PathParam("compName") String compName) {
+        OaObject param = new OaObject();
+        param.put("_param0", compName);
+        return aDetailComponent(param);
+    }
+
+    //This will return list of Ccmponents
+    @GET
+    @Path("addObject/{compName}")
+    public String addObject(@PathParam("compName") String compName) {
+        OaObject param = new OaObject();
+        param.put("_param0", compName);
+
+        OaViewResult o = viewS.buildView("sm/smObjectAdd", param);
+        return o.content;
+    }
+
+    @GET
+    @Path("objectlist/{id}")
+    public String editComponent(@PathParam("id") Long id) {
         StringWriter writer = new StringWriter();
-        try
-        {
-            new SmComponentR().render(writer,"sm/smComponentDetail",row,viewS);
-        }catch(Exception ex)
-        {
+        try {
+            new SmCompObjectListR().render(writer, this, id);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return writer.toString();
     }
 
-    @GET
-    @Path("addObject/{compName}")
-    public String addObject(@PathParam("compName") String compName) {
-        ObjectNode param = newObject();
-        param.put("_param0",compName);
-        OaViewResult o = viewS.buildView("sm/smObjectAdd", param);
-        return o.content;
+
+    /**
+     * ************************************************************************
+     * This section is for Ui Actions
+     * *************************************************************************
+     */
+
+    public String aListComponent(OaObject param) {
+        StringWriter writer = new StringWriter();
+        try {
+            //new SmComponentR().render(writer,"sm/smComponentDetail",row,viewS);
+            JsonNode row = viewS.build(writer, "sm/smComponentList", param, false);
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return writer.toString();
+    }
+
+    public String aDetailComponent(OaObject param) {
+        StringWriter writer = new StringWriter();
+        try {
+            //Build Component Details View
+
+//             JsonNode row = viewS.build(writer, "sm/smComponentDetail",param,false);
+//
+//             //Get Id and pass to Object List View
+//             OaObject oParam = new OaObject();
+//             oParam.put("comp_id",row.get("id").asLong());
+//             System.out.println("Getting Object List " + oParam.toString());
+//
+//             row = viewS.build(writer, "sm/smComponentObjectList",oParam,false);
+
+            //JsonNode row = viewS.build(writer, "sm/smTest",param,false);
+            ObjectNode row = viewS.getViewRow("sm/smComponentDetail", param);
+            new SmComponentDetailR().render(writer, this, new OaObject(row));
+
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return writer.toString();
     }
 
 
@@ -113,6 +171,14 @@ public class SmComponentS extends OaController {
      * This section is for Data Processing
      * *************************************************************************
      */
+
+    public ArrayNode qComponentObjects(Long id) {
+        OaObject param = new OaObject();
+        param.put("comp_id", id);
+        ArrayNode rows = viewS.getViewRows("sm/smComponentObjectList", param);
+        return rows;
+    }
+
     public SmComponent findById(Long id) {
 
         return this.entityManager.find(SmComponent.class, id);
@@ -124,7 +190,12 @@ public class SmComponentS extends OaController {
 
 
     public SmComponent add(ObjectNode entity) {
+
+        System.out.println("Adding SmComponent " + entity.toString());
         SmComponent component = new SmComponent();
+        if (entity.has("id")) {
+            component = entityManager.find(SmComponent.class, entity.get("id").asLong());
+        }
         component.setComponentNum(entity.get("component_num").asText());
         component.setName(entity.get("name").asText());
         component.setDescription(entity.get("description").asText());
@@ -134,7 +205,7 @@ public class SmComponentS extends OaController {
         component.setSmStage(entity.get("sm_stage").asText());
         String startDate = entity.get("sm_stage_date").asText();
         try {
-            SimpleDateFormat sd = new SimpleDateFormat("MM/DD/YYYY");
+            SimpleDateFormat sd = new SimpleDateFormat("MM/dd/yyyy");
             java.util.Date d = sd.parse(startDate);
             Calendar c = Calendar.getInstance();
             c.setTime(d);

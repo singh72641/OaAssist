@@ -2,12 +2,19 @@
     "title" : "'Component - ' + get('name').asText()",
     "action" : "comp/add",
     "method" : "POST",
-    "type" :    "OaFormViewR",
+    "type" :    "OaFormR",
     "regionSize" : "lg-8",
     "inputs" : [
         {
             "name": "component_num",
             "type" : "String",
+            "required" : true
+        }
+    ],
+    "outputs" : [
+        {
+            "name": "id",
+            "type" : "Long",
             "required" : true
         }
     ],
@@ -18,45 +25,45 @@
             " where component_num = ?"
         ]
     },
+    "queryResult" : "Single",
     "columns" : [
         {
             "name":"id",
             "prompt":"id",
             "type":"Number",
             "bind":"id",
-            "size" : 2,
+            "size" : "lg-2",
             "editable" : "N",
-            "visible" : false,
-            "displaytype" : "text"
+            "displayType" : "hidden"
         },
-        [{
+        {
             "name":"component_num",
             "prompt":"ID",
             "type":"String",
             "bind":"component_num",
-            "size" : 2,
+            "size" : "lg-2",
             "editable" : "Y",
-            "displaytype" : "text"
+            "displayType" : "text"
         },
         {
             "name":"component_type",
             "prompt":"Type",
             "type":"String",
             "bind":"component_type",
-            "size" : 6,
+            "size" : "lg-2",
             "editable" : "Y",
             "lov" : "SmComponentTypes",
-            "displaytype" : "text"
-        }]
+            "displayType" : "text"
+        }
         ,
         {
             "name":"name",
             "prompt":"Name",
             "type":"String",
             "bind":"name",
-            "size" : 8,
+            "size" : "lg-8",
             "editable" : "Y",
-            "displaytype" : "text",
+            "displayType" : "text",
             "visible" : false
         },
         {
@@ -64,37 +71,37 @@
             "prompt":"Description",
             "type":"String",
             "bind":"description",
-            "size" : 8,
+            "size" : "lg-8",
             "editable" : "Y",
-            "displaytype" : "text"
+            "displayType" : "text"
         },
-        [{
+        {
             "name":"track",
             "prompt":"Track",
             "type":"String",
             "bind":"track",
-            "size" : 2,
+            "size" : "lg-2",
             "editable" : "Y",
-            "displaytype" : "text"
+            "displayType" : "text"
         },
         {
             "name":"module",
             "prompt":"Module",
             "type":"String",
             "bind":"module",
-            "size" : 3,
+            "size" : "lg-4",
             "editable" : "Y",
-            "displaytype" : "text"
-        }],
-        [{
+            "displayType" : "text"
+        },
+        {
             "name":"sm_stage",
             "prompt":"Stage",
             "type":"String",
             "bind":"sm_stage",
-            "size" : 3,
+            "size" : "lg-3",
             "editable" : "Y",
             "lov" : "SmComponentStages",
-            "displaytype" : "select"
+            "displayType" : "select"
         },
         {
             "name":"sm_stage_date",
@@ -102,16 +109,58 @@
             "type":"Date",
             "bind":"sm_stage_date",
             "editable" : "Y",
-            "size" : 2,
-            "editable" : "Y",
-            "displaytype" : "text"
-        }]
+            "size" : "lg-3",
+            "displayType" : "text"
+        }
     ],
+    "layout" :
+    {
+        "OaRowR_1" : {
+            "OaInputFieldR_1" : {
+                "name" : "component_num"
+            },
+            "OaInputFieldR_2" : {
+                "name" : "component_type"
+            }
+
+        },
+        "OaRowR_2" : {
+            "OaInputFieldR_1" : {
+                "name" : "name"
+            }
+        },
+        "OaRowR_3" : {
+            "OaInputFieldR_1" : {
+                "name" : "description"
+            }
+        },
+        "OaRowR_4" : {
+            "OaInputFieldR_1" : {
+                "name" : "track"
+            },
+            "OaInputFieldR_2" : {
+                "name" : "module"
+            }
+        },
+        "OaRowR_5" : {
+            "OaInputFieldR_1" : {
+                "name" : "sm_stage"
+            },
+            "OaInputFieldR_2" : {
+                "name" : "sm_stage_date"
+            }
+        },
+        "OaRowR_6" : {
+            "OaInputFieldR_1" : {
+                "name" : "id"
+            }
+        }
+    },
     "actions" : [
         {
             "name" : "btnUpdate",
             "title": "Update",
-            "link" : "'comp/update/'+ get('component_num').asText()"
+            "link" : "'comp/edit/'+ get('component_num').asText()"
         },
         {
             "name" : "btnDelete",

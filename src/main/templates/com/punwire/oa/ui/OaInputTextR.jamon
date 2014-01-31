@@ -1,0 +1,34 @@
+<%import>
+     java.util.List;
+     com.punwire.oa.domain.SysListValue;
+</%import>
+<%args>
+    String iName;
+    String iPrompt;
+    String iValue;
+    List<SysListValue> iLov=null;
+    String iSize="lg-2";
+    String iType="text";
+    String iReadOnly="";
+    String iCols="30";
+    String iRows="10";
+</%args>
+
+<%if ! iType.equals("hidden") %>
+    <label for="<% iName %>" class="col-lg-2 control-label"><% iPrompt %> </label>
+    <div class="col-<% iSize %>">
+      <%if iType.equals("textarea") %>
+          <textarea class="form-control" name="<% iName %>"  cols="<% iCols %>" rows="<% iRows %>" <% iReadOnly %>><% iValue %></textarea>
+      <%elseif iType.equals("select") %>
+          <select name="<% iName %>" class="form-control"  <% iReadOnly %>>
+          <%for SysListValue lv : iLov %>
+              <option value ="<% lv.getCode() %>"><% lv.getValue() %></option>
+          </%for>
+          </select>
+      <%else>
+          <input type="<% iType %>" name="<% iName %>" class="form-control" value="<%  iValue %>" <% iReadOnly %>/>
+      </%if>
+    </div>
+<%else>
+    <input type="hidden" name="<% iName %>" value="<%  iValue %>"/>
+</%if>

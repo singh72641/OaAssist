@@ -1,0 +1,10 @@
+<%import>
+</%import>
+<%args>
+</%args>
+<div class="form-group">
+    <div class="col-sm-offset-3 col-sm-10">
+        <& /com/punwire/oa/ui/OaButtonR; btnName="btnSubmit"; btnTitle="Save"; btnType="submit"; &>
+        <& /com/punwire/oa/ui/OaButtonR; btnName="btnSubmit"; btnTitle="Cancel"; btnClick="Cancel()" &>
+    </div>
+</div>

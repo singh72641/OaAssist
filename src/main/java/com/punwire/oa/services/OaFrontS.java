@@ -2,6 +2,7 @@ package com.punwire.oa.services;
 
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.punwire.oa.core.OaController;
+import com.punwire.oa.core.OaObject;
 import com.punwire.oa.core.OaViewResult;
 
 import javax.ejb.Stateless;
@@ -30,7 +31,7 @@ public class OaFrontS extends OaController {
     @GET
     @Path("{module}/{viewName}")
     public String get(@PathParam("module") String module, @PathParam("viewName") String viewName) {
-        OaViewResult o = viewS.buildView(module+ "/" + viewName, newObject());
+        OaViewResult o = viewS.buildView(module+ "/" + viewName, new OaObject());
         return o.content;
     }
 

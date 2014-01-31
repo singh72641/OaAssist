@@ -2,10 +2,7 @@ package com.punwire.oa.services;
 
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.punwire.oa.core.OaConfig;
-import com.punwire.oa.core.OaController;
-import com.punwire.oa.core.OaDefaults;
-import com.punwire.oa.core.OaSession;
+import com.punwire.oa.core.*;
 import com.punwire.oa.domain.OaMenu;
 import com.punwire.oa.ui.OaLayoutR;
 
@@ -40,6 +37,7 @@ public class OaHomeS extends OaController{
     @Path("{viewName}")
     public String getView(@Context HttpServletRequest req, @PathParam("viewName") String viewName) {
         getSession(req);
+        OaDefaults.viewS = viewS;
         if( viewName.equals("home") )
         {
             OaDefaults.setConfig(config);
@@ -51,7 +49,7 @@ public class OaHomeS extends OaController{
             return layoutCenter("");
         }
         LOG.log(Level.INFO, "ui Post Controller for view " + viewName);
-        ObjectNode input = newObject();
+        OaObject input = new OaObject();
         return render(viewS.buildView("query/" + viewName, input).content);
     }
 
@@ -59,7 +57,7 @@ public class OaHomeS extends OaController{
     @Path("{viewName}/{param1}")
     public String getView(@Context HttpServletRequest req, @PathParam("viewName") String viewName, @PathParam("param1") String param1) {
         LOG.log(Level.INFO, "ui Post Controller for view " + viewName + " param " + param1);
-        ObjectNode input = newObject();
+        OaObject input = new OaObject();
         input.put("_param"+0,param1);
         return render(viewS.buildView("query/" + viewName, input).content);
     }

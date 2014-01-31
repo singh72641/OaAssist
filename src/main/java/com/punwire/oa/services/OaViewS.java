@@ -4,21 +4,19 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import com.punwire.oa.core.OaDefaults;
-import com.punwire.oa.core.OaMissingParameter;
-import com.punwire.oa.core.OaView;
-import com.punwire.oa.core.OaViewResult;
+import com.punwire.oa.core.*;
 import com.punwire.oa.domain.OaMenu;
+import com.punwire.oa.domain.SysList;
 import com.punwire.oa.domain.SysListValue;
-import com.punwire.oa.ui.OaFormR;
-import com.punwire.oa.ui.OaFormTableR;
-import com.punwire.oa.ui.OaFormViewR;
-import com.punwire.oa.ui.OaSearchPageR;
+import com.punwire.oa.ui.*;
+import org.jamon.AbstractTemplateProxy;
 
+import javax.ejb.Singleton;
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import java.io.File;
 import java.io.StringWriter;
+import java.io.Writer;
 import java.util.Iterator;
 import java.util.List;
 
@@ -26,6 +24,7 @@ import java.util.List;
  * Created by kanwal on 1/16/14.
  */
 @Stateless
+@Singleton
 public class OaViewS {
     protected ObjectMapper mapper = new ObjectMapper();
 
@@ -52,20 +51,18 @@ public class OaViewS {
         return lovService.getValues(name);
     }
 
-    public ObjectNode initParam(String name, Long value)
-    {
+    public ObjectNode initParam(String name, Long value) {
         ObjectNode param = mapper.createObjectNode();
-        param.put(name,value);
+        param.put(name, value);
         return param;
     }
 
-    public ObjectNode getViewRow(String name, ObjectNode params) {
+    public ObjectNode getViewRow(OaView view, OaObject params) {
         try {
-            ObjectNode view = getView(name);
-            ObjectNode query = (ObjectNode) view.get("query");
+            OaObject query = view.o("query");
             ObjectNode parameters = getParameters(view, params, false);
             ArrayNode columns = (ArrayNode) view.get("columns");
-            ObjectNode row = queryService.runSingleQuery(query, columns, parameters);
+            ObjectNode row = queryService.runSingleQuery(query.node, columns, parameters);
             return row;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -74,9 +71,17 @@ public class OaViewS {
         return null;
     }
 
-    public ArrayNode getViewRows(String name, ObjectNode params) {
+    public ObjectNode getViewRow(String name, OaObject params) {
+        OaView view = new OaView(name, lovService);
+        return getViewRow(view, params);
+    }
+
+    public ArrayNode getViewRows(String name, OaObject params) {
+        return getViewRows(new OaView(name, lovService), params);
+    }
+
+    public ArrayNode getViewRows(OaView view, OaObject params) {
         try {
-            ObjectNode view = getView(name);
             ObjectNode query = (ObjectNode) view.get("query");
             ObjectNode parameters = getParameters(view, params, false);
             ArrayNode columns = (ArrayNode) view.get("columns");
@@ -92,65 +97,98 @@ public class OaViewS {
         return null;
     }
 
-    public ObjectNode getViewRow(String name) {
-        return getViewRow(name, mapper.createObjectNode());
+    public SysListS getListService() {
+        return lovService;
     }
 
 
+    public JsonNode build(Writer writer, String name, OaObject params, Boolean readOnly) {
+        System.out.println("Building View " + name);
+        JsonNode data ;
+        try {
 
-    public OaViewResult buildView(String name, ObjectNode params) {
-        ObjectNode view = getView(name);
-        System.out.println("Building view " + view.toString());
+            //Get View Definition
+            OaView view = new OaView(name, lovService);
+            ObjectNode parameters = getParameters(view, params, false);
+
+            //Get Query Data
+            if (view.has("query")) {
+                if (view.isList()) {
+                    data = getViewRows(view, params);
+                } else {
+                    data = getViewRow(view, params);
+                }
+            }
+            else
+            {
+                data = params.node;
+            }
+            view.setReadOnly(readOnly);
+
+            //Render View
+            String tempType = view.getTemplate();
+            if (tempType.equals("OaFormR"))
+                new OaFormR().render(writer, view, data);
+            else if (tempType.equals("OaGridR"))
+                new OaGridR().render(writer, view, data);
+            else if (tempType.equals("OaSearchPageR"))
+                new OaSearchPageR().render(writer, view, params.node, data);
+            else if (tempType.equals("OaCompositeR"))
+                new OaPanelR().render(writer, view, parameters, view.getFormPanel());
+            //Map Outputs if any
+            return data;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            //System.out.println("Error while getting parameters");
+        }
+
+        return null;
+    }
+
+    public void buildTemplate(String template) {
+
+    }
+
+    public OaViewResult buildView(String name, OaObject params) {
+        OaView oaView = new OaView(name, lovService);
+        System.out.println("Building view " + oaView.toString());
         System.out.println("Building view params " + params.toString());
         StringWriter writer = new StringWriter();
         try {
-            String vType = view.get("type").asText();
-            if (vType.equals("OaComposite")) {
-                //Its a Composite View, build in sequence
-                System.out.println("Starting to build Composite..");
-                ArrayNode regions = (ArrayNode) view.get("regions");
-                JsonNode rData = null;
-                for (int r = 0; r < regions.size(); r++) {
-                    ObjectNode region = (ObjectNode) regions.get(r);
-                    OaViewResult rOutput = buildView(region.get("name").asText(), params);
-                    writer.append(rOutput.content);
-                    if (rOutput.data != null) rData = rOutput.data;
-                }
-                return new OaViewResult(writer.toString(), rData);
-            }
+            String vType = oaView.s("type");
 
             boolean isDynamic = false;
 
-            ObjectNode query = (ObjectNode) view.get("query");
+            OaObject query = oaView.o("query");
 
-            if (query != null && query.has("dynamic")) isDynamic = query.get("dynamic").asBoolean();
+            if (query != null && query.has("dynamic")) isDynamic = query.b("dynamic");
 
             //Get parameters
-            ObjectNode parameters = getParameters(view, params, isDynamic);
+            ObjectNode parameters = getParameters(oaView, params, isDynamic);
             System.out.println("Parameters>>>>>");
             System.out.println(parameters.toString());
             //Get Query
-            ArrayNode columns = (ArrayNode) view.get("columns");
+            ArrayNode columns = (ArrayNode) oaView.get("columns");
             ObjectNode row = mapper.createObjectNode();
             if (query != null) {
                 if (vType.equals("OaFormR") || vType.equals("OaFormViewR")) {
-                    row = queryService.runSingleQuery(query, columns, parameters);
+                    row = queryService.runSingleQuery(query.node, columns, parameters);
                 }
             }
             if (vType.equals("OaFormR")) {
                 System.out.println(row.toString());
-                new OaFormR().render(writer, new OaView(name,lovService), row);
+                new OaFormR().render(writer, oaView, row);
                 return new OaViewResult(writer.toString(), row);
             } else if (vType.equals("OaSearchPageR")) {
-                ArrayNode rows = queryService.runQuery(query, columns, parameters);
+                ArrayNode rows = queryService.runQuery(query.node, columns, parameters);
                 System.out.println("Search Page Rows");
                 System.out.println(rows.toString());
                 ObjectNode searchDefault = mapper.createObjectNode();
-                new OaSearchPageR().render(writer, new OaView(name,lovService), searchDefault, rows);
+                //new OaSearchPageR().render(writer, oaView, searchDefault, rows);
             } else if (vType.equals("OaFormViewR")) {
                 System.out.println(row.toString());
                 ObjectNode searchDefault = mapper.createObjectNode();
-                new OaFormViewR().render(writer, view, row,this);
+                new OaFormViewR().render(writer, oaView, row);
             }
 
         } catch (Exception ex) {
@@ -161,7 +199,7 @@ public class OaViewS {
         return new OaViewResult(writer.toString(), null);
     }
 
-    public ObjectNode getParameters(ObjectNode view, ObjectNode params, boolean isDynamic) throws OaMissingParameter {
+    public ObjectNode getParameters(OaView view, OaObject params, boolean isDynamic) throws OaMissingParameter {
         //Check if inputs are provided
         System.out.println("getParameters1");
         System.out.println(params.toString());
@@ -177,11 +215,11 @@ public class OaViewS {
                 boolean isRequired = input.get("required").asBoolean();
                 if (params.has(iName)) {
                     //Parameter specified by name
-                    String value = params.get(iName).asText();
+                    String value = params.s(iName);
                     p.put(iName, value);
                 } else if (params.has("_param" + i)) {
                     //Getting parameter by position
-                    p.put(iName, params.get("_param" + i).asText());
+                    p.put(iName, params.s("_param" + i));
                 } else if (isRequired) throw new OaMissingParameter("Missing " + iName);
             }
         }
@@ -195,7 +233,7 @@ public class OaViewS {
                 //See if we have parameters not specified in the inputs
                 //for dynamic queries
                 if (!key.startsWith("_") && (!p.has(key))) {
-                    p.put(key, params.get(key).asText());
+                    p.put(key, params.s(key));
                 }
             }
         }

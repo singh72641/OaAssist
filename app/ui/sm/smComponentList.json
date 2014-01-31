@@ -8,6 +8,7 @@
         ],
         "dynamic": true
     },
+    "queryResult" : "List",
     "type": "OaSearchPageR",
     "action": "smComponentList",
     "addaction": "'comp/add'",
@@ -41,7 +42,7 @@
             "type": "String",
             "displayType": "text",
             "search": true,
-            "link": "'comp/detail/'+get('component_num').asText()"
+            "link": "'comp/edit/'+get('component_num').asText()"
         },
         {
             "name": "module",

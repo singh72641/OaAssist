@@ -1,0 +1,93 @@
+<%import>
+    java.util.List;
+    java.util.Map;
+    com.punwire.oa.core.OaExpression;
+    com.fasterxml.jackson.databind.node.ArrayNode;
+    com.fasterxml.jackson.databind.node.ObjectNode;
+    com.fasterxml.jackson.databind.JsonNode;
+    com.punwire.oa.core.OaView;
+    com.punwire.oa.core.OaObject;
+    com.punwire.oa.core.OaViewColumn;
+    com.punwire.oa.core.OaPanel;
+    com.punwire.oa.services.OaViewS;
+    com.punwire.oa.domain.SysListValue;
+    com.punwire.oa.services.SmComponentS;
+</%import>
+<%args>
+    SmComponentS service;
+    OaObject row;
+</%args>
+<div class="row">
+<form id="frmDefault1" class="form-horizontal" ng-controller="OaFormCtrl" role="form" ng-submit="submit('comp/add')" method="POST">
+    <h3 style="color: #003366;">Component - Recalculate Payment Process Request</h3>
+    <hr>
+    <div class="oa-region col-lg-10">
+        <div class="form-group">
+                <label for="component_num" class="col-lg-2 control-label">Component#</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="component_num" value="<%  row.s("component_num") %>"/>
+                </div>
+                <label for="component_type" class="col-lg-2 control-label">Type</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="component_type" value="<%  row.s("component_type") %>"/>
+                </div>
+        </div>
+        <div class="form-group">
+            <label for="name" class="col-lg-2 control-label">Name</label>
+            <div class="col-lg-8">
+                 <input type="text" class="form-control" name="name" value="<%  row.s("name") %>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="description" class="col-lg-2 control-label">Description</label>
+            <div class="col-lg-8">
+                 <input type="text" class="form-control" name="description" value="<%  row.s("description") %>"/>
+            </div>
+        </div>
+        <div class="form-group">
+                <label for="track" class="col-lg-2 control-label">Track</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="track" value="<%  row.s("track") %>"/>
+                </div>
+                <label for="module" class="col-lg-2 control-label">Module</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="module" value="<%  row.s("module") %>"/>
+                </div>
+        </div>
+        <div class="form-group">
+                <label for="sm_stage" class="col-lg-2 control-label">Stage</label>
+                <div class="col-lg-4">
+                    <input type="text" class="form-control" name="sm_stage" value="<%  row.s("sm_stage") %>"/>
+                </div>
+                <label for="sm_stage_date" class="col-lg-1 control-label">Stage</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="sm_stage_date" value="<%  row.s("sm_stage_date") %>"/>
+                </div>
+        </div>
+        <& /com/punwire/oa/ui/OaSaveBtnPanelR; &>
+    </div>
+     <div class="col-lg-2 oa-action-region">
+        <h4>Actions..</h4>
+        <div>
+            <a href="#" ng-click="get('comp/edit/<% row.s("component_num") %>')">
+                <button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnUpdate">Update</button>
+            </a>
+            <a href="#" ng-click="get('comp/addobject/<% row.s("component_num") %>')">
+                <button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnUpdate">Add Object</button>
+            </a>
+        </div>
+     </div>
+</form>
+</div>
+<div class="row">
+<ul class="nav nav-tabs">
+  <li ng-click="getTab('smtabpage','comp/objectlist/<% row.s("id") %>')"><a href="#">Objects</a></li>
+  <li ng-click="getTab('smtabpage','cr/forcomp/<% row.s("id") %>')"><a href="#">Change Requests</a></li>
+  <li ng-click="getTab('smtabpage','issue/forcomp/<% row.s("id") %>')"><a href="#">Issues</a></li>
+</ul>
+
+<div id="smtabpage">
+<& /com/punwire/oa/sm/SmCompObjectListR; service=service; compId=row.l("id") &>
+</div>
+
+</div>

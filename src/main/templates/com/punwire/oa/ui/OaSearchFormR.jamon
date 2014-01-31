@@ -11,7 +11,7 @@
 </%import>
 <%args>
     OaView view;
-    ObjectNode row;
+    JsonNode row;
 </%args>
 <%java> view.setSearch(true); </%java>
 <form id="<% view.getName() %>"  ng-submit="submit('<% view.getAction() %>')" method="POST" role="form" ng-controller="OaFormCtrl" class="form-horizontal">

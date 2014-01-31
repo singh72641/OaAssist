@@ -12,14 +12,14 @@
 </%import>
 <%args>
     OaView view;
-    JsonNode row;
+    ObjectNode row;
 </%args>
 <%for int i = 0; i < view.getColCount(); i++ %>
 <%java> OaViewColumn col = view.getColumn(i); </%java>
 <%if col.isVisible() %>
     <div class="form-group">
         <div class="col-lg-10">
-        <& /com/punwire/oa/ui/OaInputFieldR; col = col; row = row; &>
+        <& /com/punwire/oa/ui/OaInputFieldViewR; col = col; row = row;&>
         </div>
     </div>
 </%if>

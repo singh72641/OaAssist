@@ -1,0 +1,67 @@
+<%import>
+    com.punwire.oa.core.OaExpression;
+    com.punwire.oa.services.SmChangeRequestS;
+    com.punwire.oa.domain.SmChangeRequest;
+</%import>
+<%args>
+    SmChangeRequestS service;
+    SmChangeRequest cr;
+</%args>
+<div class="row">
+<form id="frmDefault1" class="form-horizontal" ng-controller="OaFormCtrl" role="form" ng-submit="submit('cr/add')" method="POST">
+    <h3 style="color: #003366;">Add Change Request</h3>
+    <hr>
+    <div class="oa-region col-lg-10">
+        <div class="form-group">
+            <label for="cr_name" class="col-lg-2 control-label">Name</label>
+            <div class="col-lg-8">
+                 <input type="text" class="form-control" name="cr_name" value="<%  cr.getCrName() %>"/>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="cr_component" class="col-lg-2 control-label">Component</label>
+            <div class="col-lg-8">
+                 <input type="text" class="form-control" name="cr_component" value="<%  cr.getCrComponentName() %>"/>
+            </div>
+        </div>
+        <div class="form-group">
+                <label for="cr_type" class="col-lg-2 control-label">Type</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="cr_type" value="<%  cr.getCrType() %>"/>
+                </div>
+                <label for="cr_owner" class="col-lg-2 control-label">Owner</label>
+                <div class="col-lg-3">
+                    <input type="text" class="form-control" name="cr_owner" value="<%  cr.getCrOwner() %>"/>
+                </div>
+        </div>
+        <div class="form-group">
+                <label for="cr_open_date" class="col-lg-2 control-label">Open Date</label>
+                <div class="col-lg-2">
+                    <input type="text" class="form-control" name="cr_open_date" value="<%  service.formatDate(cr.getCrOpenDate()) %>"/>
+                </div>
+                <label for="cr_close_date" class="col-lg-3 control-label">Close Date</label>
+                <div class="col-lg-2">
+                    <input type="text" class="form-control" name="cr_close_date" value="<%  service.formatDate(cr.getCrCloseDate()) %>"/>
+                </div>
+        </div>
+         <div class="form-group">
+                    <label for="cr_target_date" class="col-lg-2 control-label">Target Date</label>
+                    <div class="col-lg-2">
+                         <input type="text" class="form-control" name="cr_target_date" value="<%  service.formatDate(cr.getCrTargetDate()) %>"/>
+                    </div>
+         </div>
+        <& /com/punwire/oa/ui/OaSaveBtnPanelR; &>
+    </div>
+     <div class="col-lg-2 oa-action-region">
+        <h4>Actions..</h4>
+        <div>
+            <a href="#" ng-click="get('cr/edit/<% cr.getId() %>')">
+                <button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnUpdate">Update</button>
+            </a>
+            <a href="#" ng-click="get('cr/addobject/<% cr.getId() %>')">
+                <button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnUpdate">Add Object</button>
+            </a>
+        </div>
+     </div>
+</form>
+</div>

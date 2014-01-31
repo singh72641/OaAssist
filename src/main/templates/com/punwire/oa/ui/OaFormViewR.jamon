@@ -6,54 +6,23 @@
     com.punwire.oa.core.OaExpression;
     com.punwire.oa.services.OaViewS;
     com.fasterxml.jackson.databind.JsonNode;
+    com.punwire.oa.core.OaView;
+    com.punwire.oa.core.OaViewColumn;
 </%import>
 <%args>
-    ObjectNode view;
+    OaView view;
     ObjectNode row;
-    OaViewS viewService;
 </%args>
-<%java>
-    ArrayNode columns = (ArrayNode)view.get("columns");
-</%java>
-<form id="$region.name$" method="POST" action="$region.target$"  role="form" ng-controller="OaFormCtrl" class="form-horizontal">
-    <h3 style="color: #003366;"><% OaExpression.eval(view.get("title").asText(),row) %></h3>
+<form id="<% view.getName() %>"  ng-submit="submit('<% view.getAction() %>')" method="POST" role="form" ng-controller="OaFormCtrl" class="form-horizontal">
+    <h3 style="color: #003366;"><% OaExpression.eval(view.s("title"),row) %></h3>
     <hr/>
-    <div class="oa-region col-<% view.get("regionSize").asText() %>">
-        <%for int i = 0; i < columns.size(); i++ %>
-        <%java> JsonNode col = (JsonNode)columns.get(i); </%java>
-            <%if col.isArray() %>
-                <%java> ArrayNode colArray = (ArrayNode)col; </%java>
-                <div class="form-group">
-                <%for int ii = 0; ii < colArray.size(); ii++ %>
-                    <%java> ObjectNode col1 = (ObjectNode)colArray.get(ii);  </%java>
-                    <%if (! col1.has("visible")) || col1.get("visible").asBoolean() %>
-                    <div class="col-lg-6">
-                        <& _field; col = col1; row = row; viewService=viewService; &>
-                    </div>
-                    </%if>
-                </%for>
-                </div>
-            <%else>
-                <%if (! col.has("visible")) || col.get("visible").asBoolean() %>
-                <div class="form-group">
-                    <div class="col-lg-6">
-                    <& _field; col = (ObjectNode)col; row = row; viewService=viewService; &>
-                    </div>
-                </div>
-                </%if>
-            </%if>
-        </%for>
-        <div class="form-group">
-            <div class="col-sm-offset-3 col-sm-10">
-              <button type="button" class="btn btn-primary btn-xs" ng-click="update()">Update</button>
-              <button type="button" class="btn btn-default btn-xs" ng-click="cancel()">Cancel</button>
-            </div>
-         </div>
+    <div class="oa-region col-<% view.s("regionSize") %>">
+        <& /com/punwire/oa/ui/OaPanelR; view=view; row=row; panel=view.getFormPanel(); &>
     </div>
     <%if view.has("actions") %>
     <div class="col-lg-2 oa-action-region">
         <h4>Actions..</h4>
-         <%java>ArrayNode actions = (ArrayNode)view.get("actions");</%java>
+        <%java>ArrayNode actions = (ArrayNode)view.get("actions");</%java>
         <%for int i = 0; i < actions.size(); i++ %>
         <%java>ObjectNode action = (ObjectNode)actions.get(i);</%java>
             <div>
@@ -63,29 +32,3 @@
     </div>
     </%if>
 </form>
-
-<%def _field>
-  <%args>
-    ObjectNode col;
-    ObjectNode row;
-    OaViewS viewService;
-  </%args>
-    <label for="<% col.get("name").asText() %>" class="col-sm-3 form-view-label"><% col.get("prompt").asText() %> </label>
-    <div class="col-md-<% col.get("size").asText() %>">
-        <%if col.has("displaytype") %>
-            <%if col.get("displaytype").asText().equals("textarea") %>
-                <div class="form-view-control">
-                    <%  row.get(col.get("bind").asText()).asText() %>
-                </div>
-            <%else>
-                <div class="form-view-control">
-                    <%  row.get(col.get("bind").asText()).asText() %>
-                </div>
-            </%if>
-        <%else>
-            <div class="form-view-control">
-                <%  row.get(col.get("bind").asText()).asText() %>
-            </div>
-        </%if>
-    </div>
-</%def>

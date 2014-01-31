@@ -4,6 +4,7 @@
     com.punwire.oa.core.OaExpression;
     com.fasterxml.jackson.databind.node.ArrayNode;
     com.fasterxml.jackson.databind.node.ObjectNode;
+     com.fasterxml.jackson.databind.JsonNode;
     com.punwire.oa.core.OaView;
     com.punwire.oa.core.OaViewColumn;
     com.punwire.oa.services.OaViewS;
@@ -11,22 +12,13 @@
 </%import>
 <%args>
     OaView view;
-    ObjectNode row;
+    JsonNode row;
 </%args>
 <form id="<% view.getName() %>" method="<% view.getMethod() %>"  ng-submit="submit('<% view.getAction() %>')"  role="form" ng-controller="OaFormCtrl" class="form-horizontal">
-    <div>
-        <h4 style="color: #003366;"><% OaExpression.eval(view.s("title"),view.getView()) %></h4>
-        <hr/>
-        <%for int i = 0; i < view.getColCount(); i++ %>
-        <%java> OaViewColumn col = view.getColumn(i); </%java>
-        <%if col.isVisible() %>
-            <div class="form-group">
-                <div class="col-lg-6">
-                <& _field; view=view; col = col; row = row; &>
-                </div>
-            </div>
-        </%if>
-        </%for>
+    <h3 style="color: #003366;"><% OaExpression.eval(view.s("title"),row) %></h3>
+    <hr/>
+    <div class="oa-region col-<% view.s("regionSize") %>">
+        <& /com/punwire/oa/ui/OaPanelR; view=view; row=row; panel=view.getFormPanel(); &>
         <div class="form-group">
             <div class="col-sm-offset-3 col-sm-10">
               <button type="submit" class="btn btn-primary btn-xs" >Save</button>
@@ -34,29 +26,16 @@
             </div>
          </div>
     </div>
-
+    <%if view.has("actions") %>
+    <div class="col-lg-2 oa-action-region">
+        <h4>Actions..</h4>
+        <%java>ArrayNode actions = (ArrayNode)view.get("actions");</%java>
+        <%for int i = 0; i < actions.size(); i++ %>
+        <%java>ObjectNode action = (ObjectNode)actions.get(i);</%java>
+            <div>
+                <a href="#" ng-click="get('<% OaExpression.eval(action.get("link").asText(),row) %>')"><button type="button" class="btn btn-primary btn-xs oa-region-btn" name="<% action.get("name").asText() %>"><% action.get("title").asText() %></button></a>
+            </div>
+        </%for>
+    </div>
+    </%if>
 </form>
-
-<%def _field>
-  <%args>
-    OaView view;
-    OaViewColumn col;
-    ObjectNode row;
-  </%args>
-
-  <label for="<% col.getName() %>" class="col-sm-3 control-label"><% col.getPrompt() %> </label>
-  <div class="col-md-<% col.getSize() %>">
-      <%if col.isTextArea() %>
-          <textarea class="form-control" name="<% col.getName() %>"  <%if col.has("cols") %>cols="<% col.s("cols") %>"</%if> <%if col.has("rows") %>rows="<% col.s("rows") %>"</%if>><% col.bind(row) %></textarea>
-      <%elseif col.isSelectBox() %>
-          <%java> List<SysListValue> lov = view.getLov(col.s("lov")); </%java>
-          <select name="<% col.getName() %>" class="form-control"  >
-          <%for SysListValue lv : lov %>
-              <option value ="<% lv.getCode() %>"><% lv.getValue() %></option>
-          </%for>
-          </select>
-      <%else>
-          <input type="<% col.getDisplayType() %>" name="<% col.getName() %>" class="form-control" value="<%  col.bind(row) %>"/>
-      </%if>
-  </div>
-</%def>

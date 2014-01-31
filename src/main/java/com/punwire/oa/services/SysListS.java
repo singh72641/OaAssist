@@ -19,7 +19,7 @@ import java.util.List;
  * Created by kanwal on 1/17/14.
  */
 @Stateless
-public class SysListS extends OaController {
+public class SysListS {
 
     @PersistenceContext
     private EntityManager entityManager;
@@ -77,7 +77,7 @@ public class SysListS extends OaController {
     public void loadFile(String name) {
         try {
             String dataPath = OaDefaults.getAppPath() + File.separator + "data" + File.separator + name + ".json";
-            ObjectNode data = (ObjectNode) mapper.readTree(new File(dataPath));
+            ObjectNode data = (ObjectNode) OaDefaults.mapper.readTree(new File(dataPath));
             //We got the files
             if( data.has("SysList"))
             {

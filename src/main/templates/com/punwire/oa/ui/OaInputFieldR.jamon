@@ -7,23 +7,31 @@
     com.punwire.oa.core.OaView;
     com.punwire.oa.core.OaViewColumn;
     com.punwire.oa.domain.SysListValue;
+    com.fasterxml.jackson.databind.JsonNode;
 </%import>
 <%args>
 OaViewColumn col;
-ObjectNode row;
+JsonNode row;
+Boolean readOnly = false;
 </%args>
-<label for="<% col.getName() %>" class="col-sm-3 control-label"><% col.getPrompt() %> </label>
-<div class="col-<% col.getSize() %>">
-  <%if col.isTextArea() %>
-      <textarea class="form-control" name="<% col.getName() %>"  <%if col.has("cols") %>cols="<% col.s("cols") %>"</%if> <%if col.has("rows") %>rows="<% col.s("rows") %>"</%if>><% col.bind(row) %></textarea>
-  <%elseif col.isSelectBox() %>
-      <%java> List<SysListValue> lov = col.getLov(col.s("lov")); </%java>
-      <select name="<% col.getName() %>" class="form-control"  >
-      <%for SysListValue lv : lov %>
-          <option value ="<% lv.getCode() %>"><% lv.getValue() %></option>
-      </%for>
-      </select>
-  <%else>
-      <input type="<% col.getDisplayType() %>" name="<% col.getName() %>" class="form-control" value="<%  col.bind(row) %>"/>
-  </%if>
-</div>
+
+<%if ! col.isHidden() %>
+    <%java> String readOnlyVal = readOnly?"readonly":"";  </%java>
+    <label for="<% col.getName() %>" class="col-sm-3 control-label"><% col.getPrompt() %> </label>
+    <div class="col-<% col.getSize() %>">
+      <%if col.isTextArea() %>
+          <textarea class="form-control" name="<% col.getName() %>"  <%if col.has("cols") %>cols="<% col.s("cols") %>"</%if> <%if col.has("rows") %>rows="<% col.s("rows") %>"</%if> <% readOnlyVal %>><% col.bind(row) %></textarea>
+      <%elseif col.isSelectBox() %>
+          <%java> List<SysListValue> lov = col.getLov(col.s("lov")); </%java>
+          <select name="<% col.getName() %>" class="form-control"  <% readOnlyVal %>>
+          <%for SysListValue lv : lov %>
+              <option value ="<% lv.getCode() %>"><% lv.getValue() %></option>
+          </%for>
+          </select>
+      <%else>
+          <input type="<% col.getDisplayType() %>" name="<% col.getName() %>" class="form-control" value="<%  col.bind(row) %>" <% readOnlyVal %>/>
+      </%if>
+    </div>
+<%else>
+    <input type="hidden" name="<% col.getName() %>" value="<%  col.bind(row) %>"/>
+</%if>
