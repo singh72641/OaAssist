@@ -5,24 +5,44 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.punwire.oa.core.OaController;
 import com.punwire.oa.core.OaDefaults;
-import com.punwire.oa.domain.OaMenu;
 import com.punwire.oa.domain.SysList;
 import com.punwire.oa.domain.SysListValue;
+import com.punwire.oa.ui.OaLovR;
 
 import javax.ejb.Stateless;
 import javax.management.ObjectName;
 import javax.persistence.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import java.io.File;
+import java.io.StringWriter;
 import java.util.List;
 
 /**
  * Created by kanwal on 1/17/14.
  */
 @Stateless
+@Path("/lov")
 public class SysListS {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+
+    @GET
+    @Path("{lovName}")
+    public String getLov(@PathParam("lovName") String lovName) {
+        StringWriter writer = new StringWriter();
+
+        try {
+            new OaLovR().render(writer);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return writer.toString();
+    }
+
 
     public List<SysListValue> getValues(String name) {
         String sql = "select l.name, lv.* \n" +
@@ -39,32 +59,29 @@ public class SysListS {
         return list;
     }
 
-    public SysList getList(String name)
-    {
+    public SysList getList(String name) {
         TypedQuery<SysList> query =
                 entityManager.createNamedQuery("SysList.findByName", SysList.class);
-        query.setParameter("name",name);
+        query.setParameter("name", name);
 
-        try{
+        try {
             SysList list = query.getSingleResult();
             return list;
-        } catch (NoResultException ex)
-        {
+        } catch (NoResultException ex) {
             //List does not exists
         }
-        return  null;
+        return null;
     }
 
-    public SysList addList(ObjectNode input)
-    {
+    public SysList addList(ObjectNode input) {
         SysList list = new SysList();
         list.setName(input.get("name").asText());
         list.setType(input.get("type").asText());
         entityManager.persist(list);
         return list;
     }
-    public SysListValue addListValue(SysList list, ObjectNode input)
-    {
+
+    public SysListValue addListValue(SysList list, ObjectNode input) {
         SysListValue value = new SysListValue();
         value.setCode(input.get("code").asText());
         value.setValue(input.get("value").asText());
@@ -79,34 +96,30 @@ public class SysListS {
             String dataPath = OaDefaults.getAppPath() + File.separator + "data" + File.separator + name + ".json";
             ObjectNode data = (ObjectNode) OaDefaults.mapper.readTree(new File(dataPath));
             //We got the files
-            if( data.has("SysList"))
-            {
+            if (data.has("SysList")) {
                 ArrayNode listList = (ArrayNode) data.get("SysList");
-                for(int l=0;l<listList.size();l++)
-                {
+                for (int l = 0; l < listList.size(); l++) {
                     //Need to create SysLists
-                    ObjectNode listNode = (ObjectNode)listList.get(l);
+                    ObjectNode listNode = (ObjectNode) listList.get(l);
 
                     //Check If List Already Exists
                     SysList list = getList(listNode.get("name").asText());
 
-                    if( list == null ) {
-                        list = addList((ObjectNode)listNode);
+                    if (list == null) {
+                        list = addList((ObjectNode) listNode);
                         System.out.println("List Created " + list.getId());
                     }
 
                     //Check if Values were passed
-                    if( listNode.has("SysListValue"))
-                    {
+                    if (listNode.has("SysListValue")) {
                         System.out.println("Values provides");
                         ArrayNode nodeList = (ArrayNode) listNode.get("SysListValue");
-                        for(int i=0;i<nodeList.size();i++)
-                        {
-                            ObjectNode value = (ObjectNode)nodeList.get(i);
+                        for (int i = 0; i < nodeList.size(); i++) {
+                            ObjectNode value = (ObjectNode) nodeList.get(i);
                             System.out.println("Loading value " + value.toString());
 
-                            if(! value.has("value_seq") ) value.put("value_seq",i+1);
-                            addListValue(list,value);
+                            if (!value.has("value_seq")) value.put("value_seq", i + 1);
+                            addListValue(list, value);
                         }
                     }
                 }

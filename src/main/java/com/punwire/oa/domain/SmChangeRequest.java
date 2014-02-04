@@ -66,10 +66,10 @@ public class SmChangeRequest {
     @Column(name="comp_id")
     private Long crCompId;
 
-    @Transient
+
     private String crOwner;
 
-    @Transient
+
     private String crComponentName;
 
 

@@ -28,6 +28,31 @@ oa.controller('OaCtrl', ['$scope', '$http', '$compile', '$location', function ($
 
     }
 
+    $scope.findDialog = $('<div></div>')
+        .html('This dialog will show every time!')
+        .dialog({
+            autoOpen: false,
+            title: 'Select Value...',
+            modal: true,
+            height: 300,
+            width: 350
+        });
+
+    $scope.lov = function (uri) {
+        console.log("Show LOV");
+        var fullURI = $scope.baseURI +  uri
+        $http({
+            url: fullURI,
+            method: "GET",
+            headers: { 'Accept': 'text/html',"X-Oaclient" : "y"}
+        }).success(function(data) {
+                $scope.findDialog
+                    .html(data)
+                    .dialog('open');
+            });
+
+    }
+
     $scope.processURI1 = function (uri,data) {
         console.log("processingURI: " + uri);
 
@@ -60,6 +85,16 @@ oa.controller('OaCtrl', ['$scope', '$http', '$compile', '$location', function ($
 
                 $('#maincontent').empty();
                 $('#maincontent').append(template);
+            });
+    }
+
+    $scope.validate = function (uri) {
+        console.log("validate: " + uri);
+        var fullURI = $scope.baseURI + uri;
+        $http.get(fullURI).
+            success(function(data) {
+                console.log("Validation done on server");
+                console.log(data);
             });
     }
 
@@ -198,10 +233,20 @@ oa.controller('OaCtrl', ['$scope', '$http', '$compile', '$location', function ($
             headers: { 'Accept': 'text/html',"X-Oaclient" : "y"}
         }).success(function(data) {
                 console.log("Got data back");
-
-                var template = angular.element(data);
-                var linkFn = $compile(template);
-                linkFn($scope);
+                var template = "";
+                if( data.fdata )
+                {
+                    $scope.fdata = data.fdata;
+                    template = angular.element(data.ui);
+                    var linkFn = $compile(template);
+                    linkFn($scope);
+                }
+                else
+                {
+                    template = angular.element(data);
+                    var linkFn = $compile(template);
+                    linkFn($scope);
+                }
 
                 $('#maincontent').empty();
                 $('#maincontent').append(template);
@@ -290,6 +335,12 @@ oa.controller('OaFormCtrl', ['$scope', '$http', '$compile', '$element', function
             return o;
     };
 
+    $scope.onBlur = function (val, data) {
+        console.log("In Blur  for " + val);
+        console.log(data);
+        console.log(encodeURIComponent(data));
+    };
+
     $scope.submit = function (uri) {
         console.log("Submitting form");
         var data = $element.serializeJSON();
@@ -372,5 +423,50 @@ oa.controller('OaMenuCtrl', ['$scope', '$http', '$compile', '$element', function
         console.log("actione " + uri);
         $scope.processURI1(uri,data);
     };
+}]);
+
+oa.directive('oaValidate', ['$http', function($http) {
+    return {
+        require: 'ngModel',
+        link: function(scope, ele, attrs, c) {
+
+            // add a parser that will process each time the value is
+            // parsed into the model when the user updates it.
+            ctrl.$parsers.unshift(function(value) {
+                // test and set the validity after update.
+                var valid = regex.test(value);
+                ctrl.$setValidity('regexValidate', valid);
+
+                // if it's valid, return the value to the model,
+                // otherwise return undefined.
+                return valid ? value : undefined;
+            });
+
+            scope.$watch(attrs.ngModel, function() {
+                $http({
+                    method: 'POST',
+                    url: '/oa/' + attrs.oaValidate + '/'+ attrs.ngModel,
+                    data: {'field': attrs.ensureUnique}
+                }).success(function(data, status, headers, cfg) {
+                        console.log("Validation from server");
+                        console.log(data);
+                        c.$setValidity('oaValidate', data.valid);
+                    }).error(function(data, status, headers, cfg) {
+                        c.$setValidity('oaValidate', false);
+                    });
+            });
+        }
+    }
+}]);
+
+oa.directive('oaBlur', ['$parse', function($parse) {
+    return function(scope, element, attr) {
+        var fn = $parse(attr['oaBlur']);
+        element.bind('blur', function(event) {
+            scope.$apply(function() {
+                fn(scope, {$event:event});
+            });
+        });
+    }
 }]);
 

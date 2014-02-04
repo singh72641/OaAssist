@@ -1,0 +1,21 @@
+<%import>
+    java.util.List;
+    java.util.Map;
+    com.punwire.oa.core.OaExpression;
+    com.punwire.oa.domain.SmComment;
+    com.punwire.oa.services.SmCommentS;
+</%import>
+<%args>
+    SmCommentS service;
+    List<SmComment> list;
+</%args>
+<div class="row">
+   <%for SmComment comment : list %>
+        At <%  service.formatDate(comment.getCommentTime()) %>
+        <h5> <%  comment.getCommentOwner() %> </h5>
+        <%  comment.getCommentText() %>
+
+        <hr/>
+
+   </%for>
+</div>

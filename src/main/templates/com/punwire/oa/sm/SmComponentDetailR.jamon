@@ -84,6 +84,7 @@
   <li ng-click="getTab('smtabpage','comp/objectlist/<% row.s("id") %>')"><a href="#">Objects</a></li>
   <li ng-click="getTab('smtabpage','cr/forcomp/<% row.s("id") %>')"><a href="#">Change Requests</a></li>
   <li ng-click="getTab('smtabpage','issue/forcomp/<% row.s("id") %>')"><a href="#">Issues</a></li>
+  <li ng-click="getTab('smtabpage','SmComment/for/SmComponent/<% row.s("id") %>')"><a href="#">Comments</a></li>
 </ul>
 
 <div id="smtabpage">

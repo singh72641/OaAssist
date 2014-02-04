@@ -8,47 +8,48 @@
     SmChangeRequest cr;
 </%args>
 <div class="row">
-<form id="frmDefault1" class="form-horizontal" ng-controller="OaFormCtrl" role="form" ng-submit="submit('cr/add')" method="POST">
+<form id="SmCrDetail" name="SmCrDetail"  class="form-horizontal" ng-controller="OaFormCtrl" role="form" ng-submit="submit('cr/add')" method="POST">
     <h3 style="color: #003366;">Add Change Request</h3>
     <hr>
     <div class="oa-region col-lg-10">
         <div class="form-group">
             <label for="cr_name" class="col-lg-2 control-label">Name</label>
             <div class="col-lg-8">
-                 <input type="text" class="form-control" name="cr_name" value="<%  cr.getCrName() %>"/>
+                 <input type="text" class="form-control" ng-model="fdata.crName"  name="cr_name" />
             </div>
         </div>
         <div class="form-group">
             <label for="cr_component" class="col-lg-2 control-label">Component</label>
-            <div class="col-lg-8">
-                 <input type="text" class="form-control" name="cr_component" value="<%  cr.getCrComponentName() %>"/>
+            <div class="col-lg-7">
+                 <input type="text" class="form-control" ng-model="fdata.crComponentName"  name="cr_component"  ng-blur="onBlur('cr/validate/crComponentName/',fdata.crComponentName)" />
             </div>
+            <button type="button" class="btn btn-primary btn-xs oa-region-btn" name="btnLov" ng-click="lov('lov/components')">Lov</button>
         </div>
         <div class="form-group">
                 <label for="cr_type" class="col-lg-2 control-label">Type</label>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control" name="cr_type" value="<%  cr.getCrType() %>"/>
+                    <input type="text" class="form-control" ng-model="fdata.crType" name="cr_type"  "/>
                 </div>
                 <label for="cr_owner" class="col-lg-2 control-label">Owner</label>
                 <div class="col-lg-3">
-                    <input type="text" class="form-control" name="cr_owner" value="<%  cr.getCrOwner() %>"/>
+                    <input type="text" class="form-control" ng-model="fdata.crOwner" name="cr_owner"  />
                 </div>
         </div>
         <div class="form-group">
                 <label for="cr_open_date" class="col-lg-2 control-label">Open Date</label>
                 <div class="col-lg-2">
-                    <input type="text" class="form-control" name="cr_open_date" value="<%  service.formatDate(cr.getCrOpenDate()) %>"/>
+                    <input type="text" class="form-control"  ng-model="fdata.crOpenDate" name="cr_open_date" />
                 </div>
                 <label for="cr_close_date" class="col-lg-3 control-label">Close Date</label>
                 <div class="col-lg-2">
-                    <input type="text" class="form-control" name="cr_close_date" value="<%  service.formatDate(cr.getCrCloseDate()) %>"/>
+                    <input type="text" class="form-control"  ng-model="fdata.crCloseDate" name="cr_close_date"  />
                 </div>
         </div>
          <div class="form-group">
-                    <label for="cr_target_date" class="col-lg-2 control-label">Target Date</label>
-                    <div class="col-lg-2">
-                         <input type="text" class="form-control" name="cr_target_date" value="<%  service.formatDate(cr.getCrTargetDate()) %>"/>
-                    </div>
+                <label for="cr_target_date" class="col-lg-2 control-label">Target Date</label>
+                <div class="col-lg-2">
+                     <input type="text" class="form-control" ng-model="fdata.crTargetDate"  name="cr_target_date"  />
+                </div>
          </div>
         <& /com/punwire/oa/ui/OaSaveBtnPanelR; &>
     </div>

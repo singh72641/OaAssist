@@ -49,8 +49,7 @@ public class SmChangeRequestS extends OaController {
     private EntityManager entityManager;
 
     @PostConstruct
-    public void init()
-    {
+    public void init() {
         OaDefaults.viewS = viewS;
     }
 
@@ -65,17 +64,18 @@ public class SmChangeRequestS extends OaController {
     @Path("add")
     public String addComponent() {
         SmChangeRequest cr = new SmChangeRequest();
-        cr.setCrOpenDate( Calendar.getInstance());
+        cr.setCrOpenDate(Calendar.getInstance());
         cr.setCrOwner("KSINGH");
+        ObjectNode ret = newObject();
         StringWriter writer = new StringWriter();
-        try{
-            new SmCrDetailR().render(writer,this,cr);
-        }
-        catch(Exception ex)
-        {
+        try {
+            new SmCrDetailR().render(writer, this, cr);
+            ret.put("ui", writer.toString());
+            ret.put("fdata", toJson(cr));
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return writer.toString();
+        return ret.toString();
     }
 
     @POST
@@ -93,11 +93,9 @@ public class SmChangeRequestS extends OaController {
         StringWriter writer = new StringWriter();
 
         List<SmChangeRequest> list = getCompCrList(compId);
-        try{
-            new SmCompCrListR().render(writer,this,list);
-        }
-        catch(Exception ex)
-        {
+        try {
+            new SmCompCrListR().render(writer, this, list);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return writer.toString();
@@ -111,11 +109,9 @@ public class SmChangeRequestS extends OaController {
 
         List<SmChangeRequest> list = getCrList();
 
-        try{
-            new SmCrListR().render(writer,this,list);
-        }
-        catch(Exception ex)
-        {
+        try {
+            new SmCrListR().render(writer, this, list);
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
         return writer.toString();
@@ -125,22 +121,42 @@ public class SmChangeRequestS extends OaController {
     @Path("detail/{id}")
     public String editCr(@PathParam("id") Long id) {
         SmChangeRequest cr = getCrById(id);
+        ObjectNode ret = newObject();
         StringWriter writer = new StringWriter();
-        try{
-            new SmCrDetailR().render(writer,this,cr);
-        }
-        catch(Exception ex)
-        {
+        try {
+            new SmCrDetailR().render(writer, this, cr);
+            ret.put("ui", writer.toString());
+            ret.put("fdata", toJson(cr));
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-        return writer.toString();
+        return ret.toString();
     }
 
-        /**
-         * ************************************************************************
-         * This section is for Ui Actions
-         * *************************************************************************
-         */
+    public ObjectNode toJson(SmChangeRequest cr) {
+        ObjectNode o = newObject();
+        o.put("id", cr.getId());
+        o.put("crNumber", cr.getCrNumber());
+        o.put("crName", cr.getCrName());
+        o.put("crDescription", cr.getCrDescription());
+        o.put("crType", cr.getCrType());
+        o.put("crStatus", cr.getCrStatus());
+        o.put("crOpenDate", formatDate(cr.getCrOpenDate()));
+        o.put("crCloseDate", formatDate(cr.getCrCloseDate()));
+        o.put("crTargetDate", formatDate(cr.getCrTargetDate()));
+        o.put("crOwnerId", cr.getCrOwnerId());
+        o.put("crCompId", cr.getCrCompId());
+        o.put("crOwner", cr.getCrOwner());
+        o.put("crComponentName", cr.getCrComponentName());
+        return o;
+    }
+
+
+    /**
+     * ************************************************************************
+     * This section is for Ui Actions
+     * *************************************************************************
+     */
 
     /**
      * ************************************************************************
@@ -148,7 +164,7 @@ public class SmChangeRequestS extends OaController {
      * *************************************************************************
      */
 
-    public List<SmChangeRequest> getCrList(){
+    public List<SmChangeRequest> getCrList() {
         String sql = "select u.display_name cr_owner, cr.*  \n" +
                 "from sm_change_requests cr, sm_users u \n" +
                 "where cr.cr_owner_id = u.id and cr_close_date is null";
@@ -158,24 +174,24 @@ public class SmChangeRequestS extends OaController {
         return list;
     }
 
-    public List<SmChangeRequest> getCompCrList(Long id){
+    public List<SmChangeRequest> getCompCrList(Long id) {
         String sql = "select u.display_name cr_owner, co.name cr_comp, cr.*  \n" +
                 "from sm_change_requests cr, sm_users u, sm_components co \n" +
                 "where cr.cr_owner_id = u.id and cr.comp_id = co.id and co.id = ?1";
 
         List<SmChangeRequest> list = entityManager.createNativeQuery(sql, "SmChangeRequestV")
-                .setParameter(1,id)
+                .setParameter(1, id)
                 .getResultList();
         return list;
     }
 
-    public SmChangeRequest getCrById(Long id){
+    public SmChangeRequest getCrById(Long id) {
         String sql = "select u.display_name cr_owner, co.name cr_comp, cr.*  \n" +
                 "from sm_change_requests cr, sm_users u, sm_components co \n" +
                 "where cr.cr_owner_id = u.id and cr.comp_id = co.id and cr.id = ?1";
 
-        SmChangeRequest cr = (SmChangeRequest)entityManager.createNativeQuery(sql, "SmChangeRequestV")
-                .setParameter(1,id)
+        SmChangeRequest cr = (SmChangeRequest) entityManager.createNativeQuery(sql, "SmChangeRequestV")
+                .setParameter(1, id)
                 .getSingleResult();
 
         return cr;
@@ -184,7 +200,7 @@ public class SmChangeRequestS extends OaController {
     public SmChangeRequest add(ObjectNode entity) {
         System.out.println("Adding SmChangeRequest " + entity.toString());
         SmChangeRequest cr = new SmChangeRequest();
-        if( entity.has("id") ) {
+        if (entity.has("id")) {
             cr = entityManager.find(SmChangeRequest.class, entity.get("id").asLong());
         }
         cr.setCrName(entity.get("cr_name").asText());
@@ -192,12 +208,12 @@ public class SmChangeRequestS extends OaController {
         cr.setCrType(entity.get("cr_type").asText());
 
         Calendar c = getDate(entity.get("cr_open_date").asText());
-        if ( c!= null ) cr.setCrOpenDate(c);
+        if (c != null) cr.setCrOpenDate(c);
 
         c = getDate(entity.get("cr_close_date").asText());
-        if ( c!= null ) cr.setCrCloseDate(c);
+        if (c != null) cr.setCrCloseDate(c);
         c = getDate(entity.get("cr_target_date").asText());
-        if ( c!= null ) cr.setCrTargetDate(c);
+        if (c != null) cr.setCrTargetDate(c);
 
         cr.setCrOwner(entity.get("cr_owner").asText());
         cr.setCrCompId(new Long("1"));
@@ -205,5 +221,5 @@ public class SmChangeRequestS extends OaController {
         entityManager.persist(cr);
 
         return cr;
-      }
+    }
 }

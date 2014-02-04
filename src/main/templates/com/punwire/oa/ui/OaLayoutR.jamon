@@ -19,6 +19,7 @@
     <title>OaAssist</title>
     <link href="<% OaDefaults.rBase() %>css/bootstrap.min.css" rel="stylesheet"/>
     <link href="<% OaDefaults.rBase() %>css/bootstrap-theme.min.css" rel="stylesheet"/>
+    <link href="<% OaDefaults.rBase() %>css/jquery-ui-1.10.4.custom.min.css" rel="stylesheet"/>
     <link href="<% OaDefaults.rBase() %>css/OaAssist.css" rel="stylesheet"/>
     <style type="text/css">
         .sidebar-nav {
@@ -63,6 +64,7 @@
         </div>
     </div>
     <script src="<% OaDefaults.rBase() %>js/jquery-2.0.3.min.js"></script>
+    <script src="<% OaDefaults.rBase() %>js/jquery-ui-1.10.4.custom.min.js"></script>
     <script src="<% OaDefaults.rBase() %>js/jquery.serializeJSON.min.js"></script>
     <script src="<% OaDefaults.rBase() %>js/bootstrap.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.6/angular.min.js"></script>

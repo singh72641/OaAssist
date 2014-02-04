@@ -164,3 +164,8 @@ hr {
     */
 }
 
+.oa-dash-col{
+    border-right: solid #999999 thin;
+    height: 800px;
+    border-left: solid #999999 thin;
+}

@@ -1,0 +1,47 @@
+<%import>
+    java.util.List;
+    java.util.Map;
+    com.punwire.oa.core.OaExpression;
+    com.fasterxml.jackson.databind.node.ArrayNode;
+    com.fasterxml.jackson.databind.node.ObjectNode;
+</%import>
+<%args>
+</%args>
+<h3 style="color: #003366;">Change Requests</h3>
+<hr>
+<div class="row">
+    <div class="oa-grid-title">
+            <div class="oa-title-buttons">
+                <ul class="pagination-sm oa-pagination">
+                  <li><a href="#" ng-click="prevPage()">« Prev</a></li>
+                  <li><a href="#" ng-click="nextPage()">Next »</a></li>
+                </ul>
+            </div>
+    </div>
+    <table class="table table-striped  table-bordered table-hover table-condensed">
+        <thead>
+            <tr>
+                <th> Select </th>
+                <th> Code </th>
+                <th> Value </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td> <input type="checkbox" name "select"/> </td>
+                <td> Code1 </td>
+                <td> Value 1</td>
+            </tr>
+            <tr>
+                <td> <input type="checkbox" name "select"/> </td>
+                <td> Code2 </td>
+                <td> Value 2</td>
+            </tr>
+            <tr>
+                <td> <input type="checkbox" name "select"/> </td>
+                <td> Code3 </td>
+                <td> Value 3</td>
+            </tr>
+        </tbody>
+    </table>
+</div>

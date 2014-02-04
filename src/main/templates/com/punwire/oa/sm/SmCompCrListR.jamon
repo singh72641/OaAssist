@@ -10,6 +10,7 @@
     List<SmChangeRequest> list;
 </%args>
 <div class="row">
+    <div class="col-lg-10">
     <div class="oa-grid-title">
             <div class="oa-title-buttons">
                 <ul class="pagination-sm oa-pagination">
@@ -60,4 +61,5 @@
             </%for>
         </tbody>
     </table>
+    </div>
 </div>

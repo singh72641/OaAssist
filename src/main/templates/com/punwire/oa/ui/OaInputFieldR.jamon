@@ -29,7 +29,7 @@ Boolean readOnly = false;
           </%for>
           </select>
       <%else>
-          <input type="<% col.getDisplayType() %>" name="<% col.getName() %>" class="form-control" value="<%  col.bind(row) %>" <% readOnlyVal %>/>
+          <input type="<% col.getDisplayType() %>" name="<% col.getName() %>" class="form-control" value="<%  col.bind(row) %>" <% readOnlyVal %>  ng-blug="onBlur(this)"/>
       </%if>
     </div>
 <%else>

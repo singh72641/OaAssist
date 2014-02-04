@@ -1,0 +1,25 @@
+<%import>
+    com.punwire.oa.core.OaExpression;
+    com.punwire.oa.services.SmDashboardS;
+</%import>
+<%args>
+    SmDashboardS service;
+</%args>
+
+<div class="row">
+    <div class="col-lg-2  oa-dash-col">
+        <h4>Functional Design</h4>
+    </div>
+    <div class="col-lg-2 oa-dash-col">
+        <h4>Technical Design</h4>
+    </div>
+    <div class="col-lg-2 oa-dash-col">
+        <h4>Development/Rework</h4>
+    </div>
+    <div class="col-lg-2 oa-dash-col">
+        <h4>Testing</h4>
+    </div>
+    <div class="col-lg-2 oa-dash-col">
+        <h4>Migration</h4>
+    </div>
+</div>
